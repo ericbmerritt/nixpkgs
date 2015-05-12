@@ -3628,7 +3628,7 @@ let
 
   rcm = callPackage ../tools/misc/rcm {};
 
-  tftp-hpa = callPackage ../tools/networking/tftp-hpa {};
+  tftp_hpa = callPackage ../tools/networking/tftp-hpa {};
 
   tigervnc = callPackage ../tools/admin/tigervnc {
     fontDirectories = [ xorg.fontadobe75dpi xorg.fontmiscmisc xorg.fontcursormisc

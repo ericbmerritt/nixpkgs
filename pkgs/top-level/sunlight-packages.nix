@@ -12,6 +12,8 @@ let
       rev = "refs/tags/${version}";
     } // { inherit rev; };
 
+   terraform = callPackage ../sunlight/tools/terraform {};
+
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
     vandusen = callPackage ../sunlight/tools/vandusen {};
