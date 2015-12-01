@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+readonly NIXDIR="$(readlink -m $(dirname $0))"
+
+main () {
+  local sunlight_projects="sunlight.public-keys"
+  
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+  
+  nix-env -f $NIXDIR -i $sunlight_projects
+}
+
+main

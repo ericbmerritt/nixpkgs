@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+main () {
+   curl https://nixos.org/nix/install | sh
+}
+
+main
