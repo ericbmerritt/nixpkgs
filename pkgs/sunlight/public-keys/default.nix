@@ -4,13 +4,13 @@ stdenv.mkDerivation rec {
   
   name = "sunlight-public-keys-${version}";
 
-  version = "0.0.2";
-  rev_that_corresponds_to_version="7e0bcf5";
+  version = "0.0.3";
+  rev_that_corresponds_to_version="8d1dbc3";
 
   src = fetchgit {
     url = "https://sunlight-algorithmic-user:9dc8b35c882476445cb04de2ba2e993aa76a47bf@github.com/ProjectSunlight/public-keys.git";
     rev = "${rev_that_corresponds_to_version}";
-    sha256 = "cc7f37ac9ff377af37c2f1b2b68939b37dcff731ac56cb38674756bc363e4958";
+    sha256 = "0pq4kgjwzrpd8i200c20z9wl0ksmry1nk3zb7495gjvq2mqfv2g0";
   };
 
   meta = {
