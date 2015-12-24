@@ -12,5 +12,7 @@ let
       rev = "refs/tags/${version}";
     } // { inherit rev; };
 
+/* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
+/* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
