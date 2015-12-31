@@ -14,5 +14,6 @@ let
 
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
+    vandusen = callPackage ../sunlight/tools/vandusen {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
