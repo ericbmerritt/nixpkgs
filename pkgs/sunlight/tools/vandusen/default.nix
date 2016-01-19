@@ -2,8 +2,8 @@
 
 with haskellPackages; mkDerivation {
         pname = "vandusen";
-        version = "0.0.0+build.5.gbdc7162";
-        src = sunlight.fetch {name = "vandusen";version = "0.0.0+build.5.gbdc7162"; sha256 = "cc3a32187fc1365421e3ad2f1c47e9977bdfeec539ca56f0f3c2cd101df1da66";};
+        version = "0.0.0+build.7.g27072b9";
+        src = sunlight.fetch {name = "vandusen";version = "0.0.0+build.7.g27072b9"; sha256 = "8540791ffdd86fb8fce3a1b338c395cc3b89d7545f664d0eee04bbe585895252";};
         isLibrary = false;
         isExecutable = true;
         buildDepends = [ moreutils hlint ];
