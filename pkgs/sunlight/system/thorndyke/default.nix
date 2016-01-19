@@ -3,8 +3,8 @@
 
 erlangPackages.buildRebar3 {
   name = "thorndyke";
-  version = "0.0.0+build.8.g51eba9e";
-  src = sunlight.fetch {name = "thorndyke";version = "0.0.0+build.8.g51eba9e"; sha256 = "59acd6a8742047a5fb577343f7ce3cb6a327b14211d220de8447ab015bb29a87";};
+  version = "0.0.0+build.10.g2ad02c1";
+  src = sunlight.fetch {name = "thorndyke";version = "0.0.0+build.10.g2ad02c1"; sha256 = "6375b979f6880aef833015ef8da3071f1746e21801e7f10167abf883bf34a3f0";};
 
   buildInputs = [ which nettools ];
 
