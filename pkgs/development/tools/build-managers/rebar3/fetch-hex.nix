@@ -7,6 +7,8 @@
 with stdenv.lib;
 
 stdenv.mkDerivation ({
+  # This name '-hex-source-', is used and parsed by (at least)
+  # rebar3-nix-bootstrap. Be careful when changing it.
   name = "hex-source-${pkg}-${version}";
 
   src = fetchurl {
