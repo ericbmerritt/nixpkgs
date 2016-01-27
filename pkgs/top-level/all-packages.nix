@@ -470,6 +470,8 @@ let
 
   separateDebugInfo = makeSetupHook { } ../build-support/setup-hooks/separate-debug-info.sh;
 
+  ### Sunlight Packages
+  sunlight = recurseIntoAttrs (callPackage ./sunlight-packages.nix { });
 
   ### TOOLS
 
@@ -5095,6 +5097,15 @@ let
   erlangR17_odbc_javac = callPackage ../development/interpreters/erlang/R17.nix { javacSupport = true; odbcSupport = true; };
   erlangR18 = callPackage ../development/interpreters/erlang/R18.nix {
     inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
+    odbcSupport = false;
+    wxSupport = false;
+    javacSupport = false;
+  };
+  erlangR18_bare = callPackage ../development/interpreters/erlang/R18.nix {
+    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
+    odbcSupport = false;
+    wxSupport = false;
+    javacSupport = false;
   };
   erlangR18_odbc = callPackage ../development/interpreters/erlang/R18.nix {
     inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
@@ -5108,7 +5119,7 @@ let
     inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
     javacSupport = true; odbcSupport = true;
   };
-  erlang = erlangR18;
+  erlang = erlangR18_bare;
   erlang_odbc = erlangR18_odbc;
   erlang_javac = erlangR18_javac;
   erlang_odbc_javac = erlangR18_odbc_javac;

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+readonly NIXDIR="$(readlink -m $(dirname $0))"
+
+main () {
+  cd $NIXDIR
+
+  nix-build -A sunlight
+}
+
+main
