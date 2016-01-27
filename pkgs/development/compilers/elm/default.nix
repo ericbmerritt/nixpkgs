@@ -1,4 +1,4 @@
-{ lib, stdenv, buildEnv, haskell, nodejs, fetchurl, fetchpatch, makeWrapper }:
+{ stdenv, lib, pkgs, buildEnv, haskell, nodejs, fetchurl, fetchpatch, makeWrapper }:
 
 let
   makeElmStuff = deps:
@@ -63,10 +63,22 @@ let
         elmVersion = elmRelease.version;
       };
   };
-in hsPkgs.elmPkgs // {
-  elm = buildEnv {
-    name = "elm-${hsPkgs.elmVersion}";
-    paths = lib.mapAttrsToList (name: pkg: pkg) hsPkgs.elmPkgs;
-    pathsToLink = [ "/bin" ];
+  self = hsPkgs.elmPkgs // rec {
+    elm = buildEnv {
+      name = "elm-${hsPkgs.elmVersion}";
+      paths = lib.mapAttrsToList (name: pkg: pkg) hsPkgs.elmPkgs;
+      pathsToLink = [ "/bin" ];
+    };
+
+    library = callPackage ./library.nix {};
+    app = callPackage ./app.nix {};
+
+    callPackage = pkgs.lib.callPackageWith (pkgs // self);
+
+    virtual-dom = callPackage ../../elm-modules/evancz/virtual-dom.nix {};
+    markdown = callPackage ../../elm-modules/evancz/elm-markdown.nix {};
+    html = callPackage ../../elm-modules/evancz/elm-html.nix {};
+    core = callPackage ../../elm-modules/elm-lang/core.nix {};
+
   };
-}
+in self
