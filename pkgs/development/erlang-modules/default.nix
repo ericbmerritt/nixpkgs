@@ -11,5 +11,8 @@ let
     ## Non hex packages
     webdriver = callPackage ./webdriver {};
     elli = callPackage ./elli {};
+    webmachine = callPackage ./webmachine {};
+    erlware-uri = callPackage ./erlware-uri {};
+    okeuday-uuid = callPackage ./okeuday-uuid {};
   };
 in self // self.hex

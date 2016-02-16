@@ -1,4 +1,5 @@
-{ lib, stdenv, buildEnv, haskell, nodejs, fetchurl, fetchpatch, makeWrapper }:
+{ lib, stdenv, buildEnv, haskell, nodejs, fetchurl, fetchpatch, makeWrapper,
+  glibcLocales }:
 
 { name, version
 ,  root-module ? null
@@ -31,6 +32,7 @@ let
 
   pkg = self: stdenv.mkDerivation (attrs // {
         name = "${name}-${version}";
+        LOCALE_ARCHIVE = "${glibcLocales}/lib/locale/locale-archive";
 
         dontDisableStatic=true;
         preConfigure = makeElmStuff recursiveDeps;

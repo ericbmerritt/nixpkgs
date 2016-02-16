@@ -1,0 +1,1 @@
+{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/eric/workspace/nixpkgs","disabled":false},"/vagrant_data":{"guestpath":"/vagrant_data","hostpath":"/home/eric/workspace/nixpkgs","disabled":false}}}

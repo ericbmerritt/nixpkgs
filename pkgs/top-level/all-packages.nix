@@ -3905,6 +3905,7 @@ let
   eql = callPackage ../development/compilers/eql {};
 
   elmPackages = recurseIntoAttrs (callPackage ../development/compilers/elm { });
+#  elm-virtual-dom = (callPackage ../development/elm-modules/evancz/virtual-dom.nix { });
 
   adobe_flex_sdk = callPackage ../development/compilers/adobe-flex-sdk { };
 

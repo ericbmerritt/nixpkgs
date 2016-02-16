@@ -1,20 +1,25 @@
-{ stdenv, sunlight, erlangPackages, which, nettools }:
+{ stdenv, sunlight, erlangPackages, bash, nettools, erlang }:
 
 
 erlangPackages.buildRebar3 {
   name = "thorndyke";
-  version = "0.0.0+build.10.g2ad02c1";
-  src = sunlight.fetch {name = "thorndyke";version = "0.0.0+build.10.g2ad02c1"; sha256 = "6375b979f6880aef833015ef8da3071f1746e21801e7f10167abf883bf34a3f0";};
+  version = "0.0.1";
 
-  buildInputs = [ which nettools ];
+  src = /home/eric/workspace/thorndyke;
+
+  buildInputs = [ bash nettools erlang ];
 
   erlangDeps = with erlangPackages; [ elli ];
 
   installPhase = ''
     runHook preInstall
-    make PREFIX=$out install
+    target="$out/var/sunlight"
+    erlang="${erlang}"
+    make PREFIX=$target install
+    substituteAllInPlace $target/thorndyke/bin/thorndyke
     runHook postInstall
   '';
+
 
   meta = {
     description = "Base node for the system";

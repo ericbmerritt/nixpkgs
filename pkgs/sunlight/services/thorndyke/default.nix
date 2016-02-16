@@ -27,7 +27,6 @@ in
         };
       };
       config = mkIf cfg.enable {
-       networking.firewall.allowedTCPPorts = [ 3000 ];
 
         systemd.services.thorndyke = {
            description = "Start the thorndyke user under ${cfg.user}.";
