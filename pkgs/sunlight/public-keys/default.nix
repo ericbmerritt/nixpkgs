@@ -1,4 +1,4 @@
-{ stdenv, fetchgit, bash, gnugrep }:
+{ stdenv, sunlight, fetchgit, bash, gnugrep, gnupg }:
 
 stdenv.mkDerivation rec {
 
@@ -7,12 +7,12 @@ stdenv.mkDerivation rec {
   version = "0.0.3+build.3.g2a4dee9";
   rev_that_corresponds_to_version="2a4dee90c8a28b57e22e4c41b903987274c7cb6e";
 
-  src =    fetchgit {
-     url = "https://5e1ba8e5b787b1270178b7dc23eb0936f4d759f3@github.com/ProjectSunlight/public-keys.git";
-     rev = "2a4dee90c8a28b57e22e4c41b903987274c7cb6e";
-     sha256 = "37b733ec0446ad29d3c4d641e7d6592f44d4e26864f4421e23515e5434a3696c";
+  src = sunlight.fetch {
+     name = "public-keys";
+     version = "0.0.6";
+     sha256 = "1mj0z8zicl34fk3jk5x88ayd5f1f93y74ym3w6hxmrq7p1crz122";
    };
-  buildInputs = [ bash gnugrep ];
+  buildInputs = [ bash gnugrep gnupg ];
 
   meta = {
     description = "Public keys for sunlight developers";
