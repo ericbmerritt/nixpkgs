@@ -1,7 +1,7 @@
 { stdenv, fetchgit, bash, gnugrep }:
 
 stdenv.mkDerivation rec {
-  
+
   name = "sunlight-public-keys-${version}";
 
   version = "0.0.3+build.3.g2a4dee9";
@@ -21,4 +21,3 @@ stdenv.mkDerivation rec {
   };
 
 }
-
