@@ -7,7 +7,7 @@
 assert stdenv.system != "armv5tel-linux";
 
 let
-  version = "4.2.3";
+  version = "4.3.0";
 
   deps = {
     inherit openssl zlib libuv;
@@ -31,7 +31,7 @@ in stdenv.mkDerivation {
 
   src = fetchurl {
     url = "http://nodejs.org/dist/v${version}/node-v${version}.tar.gz";
-    sha256 = "0ksmbln5qhrr7qhdz3npwmyz44y1vpznpxk3j7sqkc5lzvjss22h";
+    sha256 = "1f86jy71mi01g4xd411l5w8pi80nlk6sz7d2c0ghdk83v734ll0q";
   };
 
   configureFlags = concatMap sharedConfigureFlags (builtins.attrNames deps) ++ [ "--without-dtrace" ];
@@ -41,7 +41,7 @@ in stdenv.mkDerivation {
     sed -i 's/raise.*No Xcode or CLT version detected.*/version = "7.0.0"/' tools/gyp/pylib/gyp/xcode_emulation.py
   '';
 
-  patches = stdenv.lib.optionals stdenv.isDarwin [ ./no-xcode.patch ./pkg-libpath.patch ];
+  patches = stdenv.lib.optionals stdenv.isDarwin [ ./no-xcode.patch ];
 
   postFixup = ''
     sed -i 's/raise.*No Xcode or CLT version detected.*/version = "7.0.0"/' $out/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/gyp/xcode_emulation.py

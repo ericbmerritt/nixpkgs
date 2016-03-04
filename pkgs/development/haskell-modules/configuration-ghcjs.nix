@@ -7,58 +7,57 @@ in
 
 with import ./lib.nix { inherit pkgs; };
 
-self: super: {
+self: super:
+  # The stage 2 packages. Regenerate with ./ghcjs/gen-stage2.rb
+  let stage2 =
+    (import ./ghcjs/stage2.nix {
+       inherit (self) callPackage;
+       inherit (self.ghc) ghcjsBoot;
+    }); in stage2 // {
+
+  old-time = overrideCabal stage2.old-time (drv: {
+    postPatch = ''
+      ${pkgs.autoconf}/bin/autoreconf --install --force --verbose
+    '';
+    buildTools = pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.darwin.libiconv;
+  });
+
+  network = addBuildTools super.network (pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.darwin.libiconv);
+  zlib = addBuildTools super.zlib (pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.darwin.libiconv);
 
   # LLVM is not supported on this GHC; use the latest one.
   inherit (pkgs) llvmPackages;
 
-  inherit (pkgs.haskell.packages.ghc7102) jailbreak-cabal alex happy gtk2hs-buildtools;
+  inherit (pkgs.haskell.packages.ghc7103) jailbreak-cabal alex happy gtk2hs-buildtools rehoo hoogle;
 
-  # Many packages fail with:
-  #   haddock: internal error: expectJust getPackageDetails
-  mkDerivation = drv: super.mkDerivation (drv // { doHaddock = false; });
-
-  # This is the list of packages that are built into a booted ghcjs installation
+  # This is the list of the Stage 1 packages that are built into a booted ghcjs installation
   # It can be generated with the command:
   # nix-shell -p haskell.packages.ghcjs.ghc --command "ghcjs-pkg list | sed -n 's/^    \(.*\)-\([0-9.]*\)$/\1_\2/ p' | sed 's/\./_/g' | sed 's/-\(.\)/\U\1/' | sed 's/^\([^_]*\)\(.*\)$/\1 = null;/'"
-  Cabal = null;
-  aeson = null;
   array = null;
-  async = null;
-  attoparsec = null;
   base = null;
   binary = null;
   rts = null;
   bytestring = null;
-  case-insensitive = null;
   containers = null;
   deepseq = null;
   directory = null;
-  dlist = null;
-  extensible-exceptions = null;
   filepath = null;
   ghc-prim = null;
-  ghcjs-base = null;
   ghcjs-prim = null;
-  hashable = null;
   integer-gmp = null;
-  mtl = null;
   old-locale = null;
-  old-time = null;
-  parallel = null;
   pretty = null;
   primitive = null;
   process = null;
-  scientific = null;
-  stm = null;
-  syb = null;
   template-haskell = null;
-  text = null;
   time = null;
   transformers = null;
   unix = null;
-  unordered-containers = null;
-  vector = null;
+
+  # Don't set integer-simple to null!
+  # GHCJS uses integer-gmp, so any package expression that depends on
+  # integer-simple is wrong.
+  #integer-simple = null;
 
   # These packages are core libraries in GHC 7.10.x, but not here.
   bin-package-db = null;
@@ -89,8 +88,27 @@ self: super: {
     '';
   });
 
+  ghcjs-ffiqq = self.callPackage
+    ({ mkDerivation, base, template-haskell, ghcjs-base, split, containers, text, ghc-prim
+     }:
+     mkDerivation {
+       pname = "ghcjs-ffiqq";
+       version = "0.1.0.0";
+       src = pkgs.fetchFromGitHub {
+         owner = "ghcjs";
+         repo = "ghcjs-ffiqq";
+         rev = "da31b18582542fcfceade5ef6b2aca66662b9e20";
+         sha256 = "1mkp8p9hispyzvkb5v607ihjp912jfip61id8d42i19k554ssp8y";
+       };
+       libraryHaskellDepends = [
+         base template-haskell ghcjs-base split containers text ghc-prim
+       ];
+       description = "FFI QuasiQuoter for GHCJS";
+       license = stdenv.lib.licenses.mit;
+     }) {};
+
   ghcjs-dom = overrideCabal super.ghcjs-dom (drv: {
-    libraryHaskellDepends =
+    libraryHaskellDepends = [ self.ghcjs-base ] ++
       removeLibraryHaskellDepends [
         "glib" "gtk" "gtk3" "webkitgtk" "webkitgtk3"
       ] drv.libraryHaskellDepends;

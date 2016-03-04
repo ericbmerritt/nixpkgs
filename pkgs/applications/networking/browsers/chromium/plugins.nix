@@ -1,4 +1,5 @@
 { stdenv
+, jshon
 , enablePepperFlash ? false
 , enableWideVine ? false
 
@@ -16,7 +17,7 @@ let
   mkPluginInfo = { output ? "out", allowedVars ? [ output ]
                  , flags ? [], envVars ? {}
                  }: let
-    shSearch = ["'"] ++ map (var: "\$${var}") allowedVars;
+    shSearch = ["'"] ++ map (var: "@${var}@") allowedVars;
     shReplace = ["'\\''"] ++ map (var: "'\"\${${var}}\"'") allowedVars;
     # We need to triple-escape "val":
     #  * First because makeWrapper doesn't do any quoting of its arguments by
@@ -80,12 +81,10 @@ let
       wvName = "Widevine Content Decryption Module";
       wvDescription = "Playback of encrypted HTML audio/video content";
       wvMimeTypes = "application/x-ppapi-widevine-cdm";
-      wvModule = "$widevine/lib/libwidevinecdmadapter.so";
+      wvModule = "@widevine@/lib/libwidevinecdmadapter.so";
       wvInfo = "#${wvName}#${wvDescription};${wvMimeTypes}";
     in ''
-      flashVersion="$(
-        sed -n -r 's/.*"version": "([^"]+)",.*/\1/p' PepperFlash/manifest.json
-      )"
+      flashVersion="$(${jshon}/bin/jshon -F PepperFlash/manifest.json -e version -u)"
 
       install -vD PepperFlash/libpepflashplayer.so \
         "$flash/lib/libpepflashplayer.so"
@@ -94,8 +93,8 @@ let
         output = "flash";
         allowedVars = [ "flash" "flashVersion" ];
         flags = [
-          "--ppapi-flash-path=$flash/lib/libpepflashplayer.so"
-          "--ppapi-flash-version=$flashVersion"
+          "--ppapi-flash-path=@flash@/lib/libpepflashplayer.so"
+          "--ppapi-flash-version=@flashVersion@"
         ];
       }}
 
@@ -107,7 +106,7 @@ let
       ${mkPluginInfo {
         output = "widevine";
         flags = [ "--register-pepper-plugins=${wvModule}${wvInfo}" ];
-        envVars.NIX_CHROMIUM_PLUGIN_PATH_WIDEVINE = "$widevine/lib";
+        envVars.NIX_CHROMIUM_PLUGIN_PATH_WIDEVINE = "@widevine@/lib";
       }}
     '';
 
