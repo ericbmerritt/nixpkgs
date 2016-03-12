@@ -5310,7 +5310,7 @@ let
 
   erlangPackages = callPackage ../development/erlang-modules { };
   hex2nix = erlangPackages.callPackage ../development/tools/erlang/hex2nix { };
-
+  cuter = callPackage ../development/tools/erlang/cuter { };
   elixir = callPackage ../development/interpreters/elixir { };
 
   groovy = callPackage ../development/interpreters/groovy { };
