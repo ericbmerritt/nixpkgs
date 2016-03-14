@@ -2,23 +2,7 @@
 
 set -e
 
-readonly NIXDIR="$(readlink -m $(dirname $0))"
-
 main () {
-    cd $NIXDIR
-
-    mkdir "$HOME/.nixpkgs/"
-    cat > "$HOME/.nixpkgs/config.nix"  <<EOF
-
-{
-  allowUnfree = true;
-  extra-binary-caches = [ "http://hydra.nixos.org/"
-                          "http://hydra.cryp.to" ];
- }
-
-EOF
-
-    source $HOME/.nix-profile/etc/profile.d/nix.sh
     nix-build -A sunlight
 }
 
