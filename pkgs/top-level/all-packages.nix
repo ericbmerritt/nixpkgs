@@ -2342,6 +2342,8 @@ let
 
   mailutils = callPackage ../tools/networking/mailutils {
     guile = guile_1_8;
+    # https://debbugs.gnu.org/db/21/21863.html
+    stdenv = overrideCC stdenv gcc49;
   };
 
   email = callPackage ../tools/networking/email { };
@@ -5242,7 +5244,6 @@ let
   clooj = callPackage ../development/interpreters/clojure/clooj.nix { };
 
   erlangR14 = callPackage ../development/interpreters/erlang/R14.nix { };
-  erlangR15 = callPackage ../development/interpreters/erlang/R15.nix { };
   erlangR16 = callPackage ../development/interpreters/erlang/R16.nix { };
   erlangR16_odbc = callPackage ../development/interpreters/erlang/R16.nix { odbcSupport = true; };
   erlangR17 = callPackage ../development/interpreters/erlang/R17.nix { };
@@ -5377,8 +5378,6 @@ let
 
   nix-exec = callPackage ../development/interpreters/nix-exec {
     git = gitMinimal;
-
-    nix = nixUnstable;
   };
 
   octave = callPackage ../development/interpreters/octave {
@@ -7111,7 +7110,9 @@ let
     llvmPackages = llvmPackages_37;
   };
 
-  itk = callPackage ../development/libraries/itk { };
+  itk = callPackage ../development/libraries/itk {
+    stdenv = overrideCC stdenv gcc49;
+  };
 
   jasper = callPackage ../development/libraries/jasper { };
 
@@ -9684,8 +9685,7 @@ let
     sasl = cyrus_sasl;
   };
 
-  riak = callPackage ../servers/nosql/riak/1.3.1.nix { };
-  riak2 = callPackage ../servers/nosql/riak/2.1.1.nix { };
+  riak = callPackage ../servers/nosql/riak/2.1.1.nix { };
 
   influxdb = (callPackage ../servers/nosql/influxdb { }).bin // { outputs = [ "bin" ]; };
 
@@ -14166,9 +14166,9 @@ let
 
   xdotool = callPackage ../tools/X11/xdotool { };
 
-  xen_4_5_0 = callPackage ../applications/virtualization/xen/4.5.0.nix { };
-  xen_4_5_2 = callPackage ../applications/virtualization/xen/4.5.2.nix { };
-  xen_xenServer = callPackage ../applications/virtualization/xen/4.5.0.nix { xenserverPatched = true; };
+  xen_4_5_0 = callPackage ../applications/virtualization/xen/4.5.0.nix { stdenv = overrideCC stdenv gcc49; };
+  xen_4_5_2 = callPackage ../applications/virtualization/xen/4.5.2.nix { stdenv = overrideCC stdenv gcc49; };
+  xen_xenServer = callPackage ../applications/virtualization/xen/4.5.0.nix { xenserverPatched = true; stdenv = overrideCC stdenv gcc49; };
   xen = xen_4_5_2;
 
   win-spice = callPackage ../applications/virtualization/driver/win-spice { };
@@ -15823,10 +15823,6 @@ let
   gnuk = callPackage ../misc/gnuk { };
   gnuk-unstable = callPackage ../misc/gnuk/unstable.nix { };
   gnuk-git = callPackage ../misc/gnuk/git.nix { };
-
-  guix = callPackage ../tools/package-management/guix {
-    libgcrypt = libgcrypt_1_5;
-  };
 
   gxemul = callPackage ../misc/emulators/gxemul { };
 
