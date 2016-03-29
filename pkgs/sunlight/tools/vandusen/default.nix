@@ -2,10 +2,11 @@
 
 with haskellPackages; mkDerivation {
         pname = "vandusen";
-        version = "0.0.1";
-        src = sunlight.fetch {name = "vandusen";version = "0.0.1"; sha256 = "178lw31ygc84lnzkhijp6l81hc52m3qib5q2prwjr70f0amkizws";};
+        version = "0.0.2";
+        src = sunlight.fetch {name = "vandusen";version = "0.0.2"; sha256 = "0qfwc8sg1psqcqcdchz754zh0kyblsr5idcf5i7npl0k4dbdqcar";};
         isLibrary = false;
         isExecutable = true;
+        dontStrip = true;
         buildDepends = [ moreutils hlint ];
         testHaskellDepends = [ tasty doctest ];
         executableHaskellDepends = [ base cmdargs shelly split text
