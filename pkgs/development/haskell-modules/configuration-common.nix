@@ -941,11 +941,25 @@ self: super: {
   language-c-quote = super.language-c-quote.override { alex = self.alex_3_1_4; };
 
   # https://github.com/agda/agda/issues/1840
-  Agda_2_4_2_3 = super.Agda_2_4_2_3.override { unordered-containers = self.unordered-containers_0_2_5_1; };
-  Agda_2_4_2_4 = super.Agda_2_4_2_4.override { unordered-containers = self.unordered-containers_0_2_5_1; };
-  Agda = super.Agda.override { unordered-containers = self.unordered-containers_0_2_5_1; };
+  Agda_2_4_2_3 = super.Agda_2_4_2_3.override {
+    unordered-containers = self.unordered-containers_0_2_5_1;
+    cpphs = self.cpphs_1_19_3;
+  };
+  Agda_2_4_2_4 = super.Agda_2_4_2_4.override {
+    unordered-containers = self.unordered-containers_0_2_5_1;
+    cpphs = self.cpphs_1_19_3;
+  };
+  Agda = super.Agda.override {
+    unordered-containers = self.unordered-containers_0_2_5_1;
+    cpphs = self.cpphs_1_19_3;
+  };
 
   # We get lots of strange compiler errors during the test suite run.
   jsaddle = dontCheck super.jsaddle;
+
+  # https://github.com/gwern/mueval/issues/14
+  mueval = super.mueval.override {
+    hint = self.hint_0_4_3;
+  };
 
 }

@@ -1,4 +1,4 @@
-{stdenv, fetchFromGitHub, which, m4, python, bison, flex, llvmPackages}:
+{ stdenv, fetchFromGitHub, which, m4, python, bison, flex, llvmPackages, glibc32 }:
 
 # TODO: patch LLVM so Knights Landing works better (patch included in ispc github)
 
@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
     sha256 = "15qi22qvmlx3jrhrf3rwl0y77v66prpan6qb66a55dw3pw2d4jvn";
   };
 
-  enableParallelBuilding = true;
+  enableParallelBuilding = false;
 
   doCheck = true;
 
@@ -27,9 +27,13 @@ stdenv.mkDerivation rec {
     flex
     llvm
     clang
+    glibc32
   ];
 
-  patchPhase = "sed -i -e 's/\\/bin\\///g' -e 's/-lcurses/-lncurses/g' Makefile";
+  # https://github.com/ispc/ispc/pull/1190
+  patches = [ ./gcc5.patch ];
+
+  postPatch = "sed -i -e 's/\\/bin\\///g' -e 's/-lcurses/-lncurses/g' Makefile";
 
   installPhase = ''
     mkdir -p $out/bin
