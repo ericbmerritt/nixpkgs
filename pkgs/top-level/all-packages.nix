@@ -5342,7 +5342,7 @@ let
   beamPackages = callPackage ../development/beam-modules { };
   hex2nix = beamPackages.callPackage ../development/tools/erlang/hex2nix { };
   cuter = callPackage ../development/tools/erlang/cuter { };
-  elixir = callPackage ../development/interpreters/elixir { };
+  elixir = callPackage ../development/interpreters/elixir { debugInfo = true; };
 
   groovy = callPackage ../development/interpreters/groovy { };
 
