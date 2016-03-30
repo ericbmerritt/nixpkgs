@@ -3,7 +3,7 @@
 with haskellPackages; mkDerivation {
   pname = "vandusen";
   version = "0.0.3+build.4.ga3b99d1";
-  src = sunlight.fetch {name = "vandusen";version = "0.0.3+build.4.ga3b99d1"; sha256 = "0vv7xlbi28311v9018x404dk6kjzsk5d9w1sqw57wn1s30rq66xj";};
+  src = ../../../../../vandusen;
 
   isLibrary = true;
   isExecutable = true;
