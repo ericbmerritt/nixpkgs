@@ -5308,7 +5308,9 @@ in
   hex2nix = beamPackages.callPackage ../development/tools/erlang/hex2nix { };
   cuter = callPackage ../development/tools/erlang/cuter { };
 
-  elixir = callPackage ../development/interpreters/elixir { };
+  relxExe = callPackage ../development/tools/erlang/relx-exe {};
+
+  elixir = callPackage ../development/interpreters/elixir { debugInfo = true; };
 
   groovy = callPackage ../development/interpreters/groovy { };
 
