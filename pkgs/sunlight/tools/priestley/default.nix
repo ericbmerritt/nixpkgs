@@ -3,8 +3,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "priestley";
-  version = "0.0.2";
-  src = sunlight.fetch {name = "priestley";version = "0.0.2"; sha256 = "0fy6i4k5faqgv75aqvg1rpf5wa48k9znwcfr7aq4n86j00adm884";};
+  version = "0.0.3";
+  src = sunlight.fetch {name = "priestley";version = "0.0.3"; sha256 = "0zr57g6dlwqd0raj9zca80gxcjfk9l99xrzf04ppkaqmnlajz91x";};
   isLibrary = false;
   isExecutable = true;
   dontStrip = true;
@@ -15,7 +15,7 @@ with haskellPackages; mkDerivation {
   executableHaskellDepends = [ base cmdargs shelly aeson github
                                split wreq hslogger time lens bytestring
                                sunlight.public-keys pkgs.git MissingH
-                               sunlight.public-keys gitMinimal
+                               sunlight.vandusen gitMinimal
                                slack-notify-haskell ];
 
    postInstall = ''
