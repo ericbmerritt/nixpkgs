@@ -2,8 +2,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "vandusen";
-  version = "0.0.3+build.4.ga3b99d1";
-  src = sunlight.fetch {name = "vandusen";version = "0.0.3+build.4.ga3b99d1"; sha256 = "0vv7xlbi28311v9018x404dk6kjzsk5d9w1sqw57wn1s30rq66xj";};
+  version = "0.0.4";
+  src = sunlight.fetch {name = "vandusen";version = "0.0.4"; sha256 = "13i5v352mi22g5cfzzhrr00rwk4dy9z16lxyypxl9f1y5rgqd287";};
 
   isLibrary = true;
   isExecutable = true;
@@ -17,7 +17,7 @@ with haskellPackages; mkDerivation {
 
   libraryHaskellDepends = [
     base formatting github HStringTemplate lens MissingH semver shelly
-    split system-filepath text
+    split system-filepath text regex-compat
   ];
 
   executableHaskellDepends = [ base cmdargs mtl shelly text ];
