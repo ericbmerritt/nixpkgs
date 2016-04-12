@@ -61,6 +61,7 @@ in {
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
 
+      serviceConfig.Restart = "always";
       preStart = ''
         /var/setuid-wrappers/sudo -u "${cfg.user}" -- \
             ${pkgs.coreutils}/bin/mkdir -m 0700 -p "/home/${cfg.user}/.nixpkgs"
