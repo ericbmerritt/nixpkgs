@@ -1192,6 +1192,7 @@ let
 
     mozc = callPackage ../tools/inputmethods/ibus-engines/ibus-mozc {
       inherit (pythonPackages) gyp;
+      protobuf = protobuf.override { stdenv = clangStdenv; };
     };
 
     table = callPackage ../tools/inputmethods/ibus-engines/ibus-table {
@@ -1543,6 +1544,7 @@ let
 
     mozc = callPackage ../tools/inputmethods/fcitx-engines/fcitx-mozc {
       inherit (pythonPackages) gyp;
+      protobuf = protobuf.override { stdenv = clangStdenv; };
     };
 
     table-other = callPackage ../tools/inputmethods/fcitx-engines/fcitx-table-other { };
@@ -1763,7 +1765,9 @@ let
 
   gmvault = callPackage ../tools/networking/gmvault { };
 
-  gnaural = callPackage ../applications/audio/gnaural { };
+  gnaural = callPackage ../applications/audio/gnaural {
+    stdenv = overrideCC stdenv gcc49;
+  };
 
   gnokii = callPackage ../tools/misc/gnokii { };
 
@@ -4109,18 +4113,20 @@ let
 
   gcc = gcc5;
 
-  gcc_multi =
+  wrapCCMulti = cc:
     if system == "x86_64-linux" then lowPrio (
       let
         extraBuildCommands = ''
           echo "dontMoveLib64=1" >> $out/nix-support/setup-hook
         '';
-      in wrapCCWith (callPackage ../build-support/cc-wrapper) glibc_multi extraBuildCommands (gcc.cc.override {
-        stdenv = overrideCC stdenv (wrapCCWith (callPackage ../build-support/cc-wrapper) glibc_multi "" gcc.cc);
+      in wrapCCWith (callPackage ../build-support/cc-wrapper) glibc_multi extraBuildCommands (cc.cc.override {
+        stdenv = overrideCC stdenv (wrapCCWith (callPackage ../build-support/cc-wrapper) glibc_multi "" cc.cc);
         profiledCompiler = false;
         enableMultilib = true;
       }))
-    else throw "Multilib gcc not supported on ‘${system}’";
+    else throw "Multilib ${cc.name} not supported on ‘${system}’";
+
+  gcc_multi = wrapCCMulti gcc;
 
   gcc_debug = lowPrio (wrapCC (gcc.cc.override {
     stripped = false;
@@ -8548,10 +8554,10 @@ let
 
     telepathy = callPackage ../development/libraries/telepathy/qt { };
 
-    vlc = callPackage ../applications/video/vlc {
+    vlc = lowPrio (callPackage ../applications/video/vlc {
       qt4 = null;
       withQt5 = true;
-    };
+    });
 
   };
 
@@ -11940,8 +11946,7 @@ let
     imagemagick = null;
     acl = null;
     gpm = null;
-    inherit (darwin.apple_sdk.frameworks) AppKit Foundation;
-    inherit (darwin) libobjc;
+    inherit (darwin.apple_sdk.frameworks) AppKit CoreWLAN GSS Kerberos ImageIO;
   });
 
   emacsPackagesGen = emacs: self: let callPackage = newScope self; in rec {
@@ -12299,7 +12304,7 @@ let
 
   flashplayer-standalone = pkgsi686Linux.flashplayer.sa;
 
-  flashplayer-standalone-debugger = pkgsi686Linux.flashplayer.saDbg;
+  flashplayer-standalone-debugger = (pkgsi686Linux.flashplayer.override { debug = true; }).sa;
 
   fluxbox = callPackage ../applications/window-managers/fluxbox { };
 
@@ -12577,6 +12582,8 @@ let
   };
 
   hydrogen = callPackage ../applications/audio/hydrogen { };
+
+  slack = callPackage ../applications/networking/instant-messengers/slack { };
 
   spectrwm = callPackage ../applications/window-managers/spectrwm { };
 
@@ -13256,7 +13263,7 @@ let
   panotools = callPackage ../applications/graphics/panotools { };
 
   paprefs = callPackage ../applications/audio/paprefs {
-    inherit (gnome) libglademm gconfmm;
+    inherit (gnome) libglademm gconfmm GConf;
   };
 
   pavucontrol = callPackage ../applications/audio/pavucontrol { };
@@ -13574,7 +13581,7 @@ let
 
   skype = callPackage_i686 ../applications/networking/instant-messengers/skype {
     qt4 = pkgsi686Linux.qt4.override {
-      stdenv = clangStdenv;
+      stdenv = pkgsi686Linux.clangStdenv;
     };
   };
 
@@ -15933,7 +15940,9 @@ let
 
   mongoc = callPackage ../development/libraries/mongoc { };
 
-  mupen64plus = callPackage ../misc/emulators/mupen64plus { };
+  mupen64plus = callPackage ../misc/emulators/mupen64plus {
+    stdenv = overrideCC stdenv gcc49;
+  };
 
   inherit (callPackages ../tools/package-management/nix {
       storeDir = config.nix.storeDir or "/nix/store";
