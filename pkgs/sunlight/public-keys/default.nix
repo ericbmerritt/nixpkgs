@@ -4,12 +4,12 @@ stdenv.mkDerivation rec {
 
   name = "sunlight-public-keys-${version}";
 
-  version = "0.0.9";
+  version = "0.0.10";
 
   src = sunlight.fetch {
      name = "public-keys";
-     version = "0.0.9";
-     sha256 = "1rkclrisdpm5gn01jarw567rfh8gdck4sidysis0w06yvhlanaly";
+     version = "0.0.10";
+     sha256 = "1kkyvn89qsb7xacj7lmdyy5axrz5w9m44gryg76jn6a4dd37xqag";
   };
   buildInputs = [ bash gnugrep gnupg ];
 
