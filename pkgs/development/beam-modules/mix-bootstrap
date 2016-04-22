@@ -33,13 +33,6 @@
 
 main(Args) ->
     {ok, RequiredData} = gather_required_data_from_the_environment(Args),
-    do(RequiredData).
-
-%% @doc
-%% This actually runs the command. There are two modes 'register_only'
-%% where the register is created from hex and everything else.
--spec do(#data{}) -> ok.
-do(RequiredData) ->
     ok = bootstrap_libs(RequiredData).
 
 %% @doc
@@ -85,7 +78,7 @@ bootstrap_libs(#data{erl_libs = ErlLibs}) ->
                             gather_directory_contents(Path) ++ Acc
                     end, [], Paths),
     lists:foreach(fun (Path) ->
-                          link_app(Path, Target)
+                          ok = link_app(Path, Target)
                   end, CopiableFiles).
 
 -spec gather_directory_contents(string()) -> [{string(), string()}].
@@ -103,7 +96,7 @@ gather_directory_contents(Path) ->
 -spec link_app({string(), string()}, string()) -> ok.
 link_app({Path, TargetFile}, TargetDir) ->
     Target = filename:join(TargetDir, TargetFile),
-    make_symlink(Path, Target).
+    ok = make_symlink(Path, Target).
 
 -spec make_symlink(string(), string()) -> ok.
 make_symlink(Path, TargetFile) ->
