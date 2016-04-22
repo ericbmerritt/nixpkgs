@@ -4,12 +4,12 @@ stdenv.mkDerivation rec {
 
   name = "sunlight-public-keys-${version}";
 
-  version = "0.0.11";
+  version = "0.0.12";
 
   src = sunlight.fetch {
      name = "public-keys";
      version = version;
-     sha256 = "0m0n4ana7iqs5yayiv6phfgjbjh31r307qj46lnx6kl28c9mb02w";
+     sha256 = "1sk1sp4gwhwcqv6dx01fdqian45jvhg8a22kxhyk516wnhs2vkcj";
   };
 
   buildInputs = [ bash gnugrep gnupg gawk gitMinimal makeWrapper ];
@@ -17,9 +17,6 @@ stdenv.mkDerivation rec {
   postInstall = ''
      wrapProgram $out/bin/import-sunlight-keys \
        --suffix PATH : ${gawk}/bin:${bash}/bin:${gnupg}/bin:${gnugrep}/bin
-
-     wrapProgram $out/bin/sunlight-verify-commits  \
-       --suffix PATH : ${gitMinimal}/bin:${bash}/bin:${gnugrep}/bin
    '';
 
   meta = {
