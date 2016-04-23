@@ -363,7 +363,7 @@ else
         trap "rm -rf \"$tmpPath\"" EXIT
 
         tmpFile="$tmpPath/$(url_to_name "$url" "$rev")"
-        mkdir "$tmpFile"
+        mkdir -p "$tmpFile"
 
         # Perform the checkout.
         clone_user_rev "$tmpFile" "$url" "$rev"
