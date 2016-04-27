@@ -8,7 +8,7 @@ cd Q*
 # Install Phase - beams and docs
 outDir=${out}/lib/erlang/lib
 echo "Installing beams and includes to $outDir"
-docsDir=${docs}/share
+docsDir=${docs}/share/doc
 echo "Installing docs to $docsDir"
 docsBinDir=${docs}/bin
 mkdir -p $docsDir
@@ -23,13 +23,13 @@ do
     # Copy the doc dir to share/doc and generate a helper
     # script to launch them in the default browser
     docsLibDir=${docsDir}/${eqclib}
-    cp -rp $eqclib/doc $docsDir
+    cp -rp $eqclib/doc $docsDir/$eqclib
 
     ## Create helper scripts to open the EQC docs
     ## with the default browser. There should be an xdg-open
     ## dependency on just sunlight.eqc.docs, but cannot work out
     ## how to do that.
-    echo "xdg-open $docsDir/doc/index.html" > $docsBinDir/${eqclib%-*}-docs
+    echo "xdg-open ${docsDir}/${eqclib}/index.html" > $docsBinDir/${eqclib%-*}-docs
     chmod +x $docsBinDir/${eqclib%-*}-docs
 done
 
