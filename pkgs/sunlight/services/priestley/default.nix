@@ -33,8 +33,8 @@ in {
       };
 
       pollIntervalSecs = mkOption {
-        default = "600";
-        type = types.str;
+        default = 60;
+        type = types.int;
         description = ''
           The poll interval for checking for changes
         '';
