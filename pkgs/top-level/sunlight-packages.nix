@@ -8,7 +8,7 @@ let
     fetch = { name, version, sha256 }: fetchgit {
       inherit sha256;
       name = "sunlight-${name}-${version}";
-      url = "https://ad41f1f0dd204a4cc828d1665f114b86e762a0a5@github.com/ProjectSunlight/${name}.git";
+      url = "https://4f20c4fe03ffe95ec4c7e2f3cea634e19d1ec145@github.com/ProjectSunlight/${name}.git";
       rev = "refs/tags/${version}";
     } // { inherit rev; };
 
