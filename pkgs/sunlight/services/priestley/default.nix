@@ -78,7 +78,7 @@ in {
             --repos "${cfg.projects}" --working-dir "${cfg.working-dir}" \
             --github-user "${cfg.github-user}" \
             --github-oauth-token "${cfg.github-oauth-token}" \
-            --poll-interval-secs "${cfg.pollIntervalSecs}"
+            --poll-interval-secs "${toString cfg.pollIntervalSecs}"
       '';
     };
   };

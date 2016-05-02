@@ -3,8 +3,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "priestley";
-  version = "0.0.4+build.22.g4ffb2dd";
-  src = sunlight.fetch {name = "priestley";version = "0.0.4+build.22.g4ffb2dd"; sha256 = "11gv2jd5hml52z6w344kx80pq8h61bsqjmws1wcy6p69sxckfw3s";};
+  version = "0.0.4+build.28.g8d10dc7";
+  src = sunlight.fetch {name = "priestley";version = "0.0.4+build.28.g8d10dc7"; sha256 = "1dzs7rj6kqlc5qlkd9day6pzy69r89vj0fk9d6c0fz3sgwn344g4";};
   isLibrary = false;
   isExecutable = true;
   dontStrip = true;
