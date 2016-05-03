@@ -19,5 +19,6 @@ let
     vandusen = callPackage ../sunlight/tools/vandusen {};
     priestley = callPackage ../sunlight/tools/priestley {};
     infcli = callPackage ../sunlight/tools/infcli {};
+    infpipe = callPackage ../sunlight/tools/infpipe {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
