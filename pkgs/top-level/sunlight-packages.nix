@@ -18,5 +18,6 @@ let
     public-keys = callPackage ../sunlight/public-keys {};
     vandusen = callPackage ../sunlight/tools/vandusen {};
     priestley = callPackage ../sunlight/tools/priestley {};
+    infcli = callPackage ../sunlight/tools/infcli {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
