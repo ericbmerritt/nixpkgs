@@ -1,9 +1,9 @@
-{ sunlight, haskellPackages, stdenv, moreutils }:
+{ sunlight, haskellPackages, stdenv, moreutils, awscli, easyrsa }:
 
 with haskellPackages; mkDerivation {
   pname = "infcli";
-  version = "0.0.5+build.26.g8ec37a6";
-  src = sunlight.fetch {name = "infcli";version = "0.0.5+build.26.g8ec37a6"; sha256 = "11jzb4qs74j25xky2ffdn0z6xqbkqz1csq2vbjiaw4sa9vkhn4nn";};
+  version = "0.0.5+build.28.g9bb87ab";
+  src = sunlight.fetch {name = "infcli";version = "0.0.5+build.28.g9bb87ab"; sha256 = "14vyxlzhryqz9xb0cgwmv72d6lxxnii2xsmqwm70g2qikbsc44qa";};
 
   isLibrary = true;
   isExecutable = true;
@@ -22,7 +22,7 @@ with haskellPackages; mkDerivation {
 
   executableHaskellDepends = [ base cmdargs mtl shelly text ];
   testHaskellDepends = [
-    base cmdargs doctest shelly split tasty text
+    base cmdargs doctest shelly split tasty text awscli easyrsa
   ];
 
   description = "Automation commands for sunlight systems";
