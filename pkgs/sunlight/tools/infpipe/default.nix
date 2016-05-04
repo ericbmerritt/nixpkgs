@@ -3,8 +3,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "infpipe";
-  version = "0.0.4+build.31.ga64cd07";
-  src = sunlight.fetch {name = "infpipe";version = "0.0.4+build.31.ga64cd07"; sha256 = "1mrg3j49kh4mfr7mqamgk1i7ywfi7bymjz5qkzsbvj10rg5c0460";};
+  version = "0.0.4+build.34.g7d95cdb";
+  src = sunlight.fetch {name = "infpipe";version = "0.0.4+build.34.g7d95cdb"; sha256 = "074ma5hwanyrilids9spv93clmdy9zsgi3y5dn3haqm12yc4qs4z";};
   isLibrary = false;
   isExecutable = true;
   dontStrip = true;

@@ -50,7 +50,7 @@ in {
       user = mkOption {
         type = with types; uniq string;
         description = ''
-          Infpipe system user
+          infpipe system user
         '';
       };
     };
