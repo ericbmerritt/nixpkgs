@@ -16,8 +16,6 @@ let
 
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
-    vandusen = callPackage ../sunlight/tools/vandusen {};
-    priestley = callPackage ../sunlight/tools/priestley {};
     infcli = callPackage ../sunlight/tools/infcli {};
     infpipe = callPackage ../sunlight/tools/infpipe {};
     infpipe_mi = callPackage ../sunlight/machine_images/infpipe_mi {};
