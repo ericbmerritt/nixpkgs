@@ -14,8 +14,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "infcli";
-  version = "0.0.6+build.10.gab8b7f6";
-  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.10.gab8b7f6"; sha256 = "008i8f0bz2lgifbjj72m2l29scvkd4jv6w7m75irk9lgdfdvg10i";};
+  version = "0.0.6+build.12.g307aeb8";
+  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.12.g307aeb8"; sha256 = "02sb4zbwv594yfi3s5wi1xyavv36f7gbz4wkxsp6d7paajnr8rac";};
 
   isLibrary = true;
   isExecutable = true;
@@ -49,6 +49,7 @@ with haskellPackages; mkDerivation {
     gitMinimal
     makeWrapper
     mtl
+    nix
     nix-prefetch-git
     openssh
     shelly
@@ -70,10 +71,10 @@ with haskellPackages; mkDerivation {
 
   postInstall = ''
      wrapProgram $out/bin/infcli \
-         --suffix PAHT : ${nix}/bin \
          --suffix PATH : ${bash}/bin \
          --suffix PATH : ${gitMinimal}/bin \
          --suffix PATH : ${gnupg}/bin \
+         --suffix PATH : ${nix}/bin \
          --suffix PATH : ${nix-prefetch-git}/bin \
          --suffix PATH : ${openssh}/bin \
          --suffix PATH : ${sunlight.public-keys}/bin
