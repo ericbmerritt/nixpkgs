@@ -1,9 +1,10 @@
-{ sunlight, haskellPackages, stdenv, moreutils, awscli, easyrsa }:
+{ awscli, bash, easyrsa, gitMinimal, gnupg, haskellPackages, makeWrapper,
+  moreutils, nix, sunlight, stdenv }:
 
 with haskellPackages; mkDerivation {
   pname = "infcli";
-  version = "0.0.6+build.6.ge362337";
-  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.6.ge362337"; sha256 = "0f6vv27zygkf4p0q47hmz8vb6wfp497wl7pyhp1583mlk82fk4dd";};
+  version = "0.0.6+build.8.g2ea9eb3";
+  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.8.g2ea9eb3"; sha256 = "15wj2pknhwfz0101pnvb6cs53lx9bmbjwyffa9h575mz6mnfp69f";};
 
   isLibrary = true;
   isExecutable = true;
@@ -20,10 +21,21 @@ with haskellPackages; mkDerivation {
     split system-filepath text regex-compat
   ];
 
-  executableHaskellDepends = [ base cmdargs mtl shelly text ];
+  executableHaskellDepends = [ base cmdargs mtl shelly text gitMinimal
+                               sunlight.public-keys makeWrapper ];
   testHaskellDepends = [
     base cmdargs doctest shelly split tasty text awscli easyrsa
   ];
+
+  postInstall = ''
+     wrapProgram $out/bin/infcli \
+         --suffix PATH : ${bash}/bin \
+         --suffix PATH : ${gitMinimal}/bin \
+         --suffix PATH : ${gnupg}/bin \
+         --suffix PAHT : ${nix}/bin \
+         --suffix PATH : ${sunlight.public-keys}/bin
+   '';
+
 
   description = "Automation commands for sunlight systems";
   license = stdenv.lib.licenses.unfree;
