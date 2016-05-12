@@ -1,8 +1,8 @@
 { stdenv, sunlight }:
 stdenv.mkDerivation rec {
   name = "infutils";
-  version = "0.0.0+build.15.g8d92eba";
-  src = sunlight.fetch {name = "infutils";version = "0.0.0+build.15.g8d92eba"; sha256 = "1qh8b9m0bxvl8g1zq3gkhq1pb6ah2c6ypdgmh4ng8di6g364izkx";};
+  version = "0.0.0+build.17.g0466ebb";
+  src = sunlight.fetch {name = "infutils";version = "0.0.0+build.17.g0466ebb"; sha256 = "1h5qx4dw3qsh0nb9a80vffr9fpy7iw9bq7brzrrfq972qaq8w7dr";};
   isLibrary = false;
   isExecutable = false;
   dontStrip = true;
