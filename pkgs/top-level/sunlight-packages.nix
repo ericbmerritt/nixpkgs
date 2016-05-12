@@ -19,5 +19,6 @@ let
     infcli = callPackage ../sunlight/tools/infcli {};
     infpipe = callPackage ../sunlight/tools/infpipe {};
     infpipe_mi = callPackage ../sunlight/machine_images/infpipe_mi {};
+    infutils = callPackage ../sunlight/tools/infutils {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
