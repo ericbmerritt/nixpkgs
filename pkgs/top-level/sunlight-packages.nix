@@ -13,7 +13,7 @@ let
     } // { inherit rev; };
 
    terraform = callPackage ../sunlight/tools/terraform {};
-
+   eqc = callPackage ../sunlight/tools/eqc {};
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
     infcli = callPackage ../sunlight/tools/infcli {};
