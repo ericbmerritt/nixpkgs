@@ -8,6 +8,7 @@ let
     config = {
       mode = "auto";
       sysctl = false;
+      denyChrootCaps = false;
       denyChrootChmod = false;
       denyUSB = false;
       restrictProc = false;
@@ -90,6 +91,10 @@ let
         GRKERNSEC y
         ${grsecMainConfig}
 
+        # The paxmarks mechanism relies on ELF header markings, but the default
+        # grsecurity configuration only enables xattr markings
+        PAX_PT_PAX_FLAGS y
+
         ${if cfg.config.restrictProc then
             "GRKERNSEC_PROC_USER y"
           else
@@ -100,6 +105,7 @@ let
         }
 
         GRKERNSEC_SYSCTL ${boolToKernOpt cfg.config.sysctl}
+        GRKERNSEC_CHROOT_CAPS ${boolToKernOpt cfg.config.denyChrootCaps}
         GRKERNSEC_CHROOT_CHMOD ${boolToKernOpt cfg.config.denyChrootChmod}
         GRKERNSEC_DENYUSB ${boolToKernOpt cfg.config.denyUSB}
         GRKERNSEC_NO_RBAC ${boolToKernOpt cfg.config.disableRBAC}

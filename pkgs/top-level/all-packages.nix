@@ -1145,6 +1145,7 @@ let
   collectd = callPackage ../tools/system/collectd {
     rabbitmq-c = rabbitmq-c_0_4;
     libmysql = mysql.lib;
+    libsigrok = libsigrok-0-3-0; # not compatible with >= 0.4.0 yet
   };
 
   colormake = callPackage ../development/tools/build-managers/colormake { };
@@ -2692,6 +2693,10 @@ let
   odt2txt = callPackage ../tools/text/odt2txt { };
 
   offlineimap = callPackage ../tools/networking/offlineimap {
+    inherit (pythonPackages) sqlite3;
+  };
+
+  offlineimap_6_7 = callPackage ../tools/networking/offlineimap/6.7.nix {
     inherit (pythonPackages) sqlite3;
   };
 
@@ -5915,6 +5920,11 @@ let
   libcxxabi = llvmPackages.libcxxabi;
 
   libsigrok = callPackage ../development/tools/libsigrok { };
+  # old version:
+  libsigrok-0-3-0 = libsigrok.override {
+    version = "0.3.0";
+    sha256 = "0l3h7zvn3w4c1b9dgvl3hirc4aj1csfkgbk87jkpl7bgl03nk4j3";
+  };
 
   libsigrokdecode = callPackage ../development/tools/libsigrokdecode { };
 
@@ -10429,7 +10439,7 @@ let
   };
 
   linux_4_4 = callPackage ../os-specific/linux/kernel/linux-4.4.nix {
-    kernelPatches = [ kernelPatches.bridge_stp_helper ]
+    kernelPatches = [ kernelPatches.bridge_stp_helper kernelPatches.qat_common_Makefile ]
       ++ lib.optionals ((platform.kernelArch or null) == "mips")
       [ kernelPatches.mips_fpureg_emu
         kernelPatches.mips_fpu_sigill
@@ -10438,7 +10448,7 @@ let
   };
 
   linux_4_5 = callPackage ../os-specific/linux/kernel/linux-4.5.nix {
-    kernelPatches = [ kernelPatches.bridge_stp_helper ]
+    kernelPatches = [ kernelPatches.bridge_stp_helper kernelPatches.qat_common_Makefile ]
       ++ lib.optionals ((platform.kernelArch or null) == "mips")
       [ kernelPatches.mips_fpureg_emu
         kernelPatches.mips_fpu_sigill
@@ -10514,6 +10524,15 @@ let
       ];
   };
 
+  grsecurity_base_linux_4_5 = callPackage ../os-specific/linux/kernel/linux-grsecurity-4.5.nix {
+    kernelPatches = [ kernelPatches.bridge_stp_helper ]
+      ++ lib.optionals ((platform.kernelArch or null) == "mips")
+      [ kernelPatches.mips_fpureg_emu
+        kernelPatches.mips_fpu_sigill
+        kernelPatches.mips_ext3_n32
+      ];
+  };
+
   grFlavors = import ../build-support/grsecurity/flavors.nix;
 
   mkGrsecurity = patch: opts:
@@ -10537,6 +10556,10 @@ let
   linux_grsec_desktop_4_4    = grKernel kernelPatches.grsecurity_4_4 grFlavors.desktop;
   linux_grsec_server_4_4     = grKernel kernelPatches.grsecurity_4_4 grFlavors.server;
   linux_grsec_server_xen_4_4 = grKernel kernelPatches.grsecurity_4_4 grFlavors.server_xen;
+
+  linux_grsec_desktop_4_5    = grKernel kernelPatches.grsecurity_4_5 grFlavors.desktop;
+  linux_grsec_server_4_5     = grKernel kernelPatches.grsecurity_4_5 grFlavors.server;
+  linux_grsec_server_xen_4_5 = grKernel kernelPatches.grsecurity_4_5 grFlavors.server_xen;
 
   linux_grsec_desktop_latest    = grKernel kernelPatches.grsecurity_latest grFlavors.desktop;
   linux_grsec_server_latest     = grKernel kernelPatches.grsecurity_latest grFlavors.server;
@@ -10707,6 +10730,10 @@ let
   linuxPackages_grsec_desktop_4_4    = grPackage kernelPatches.grsecurity_4_4 grFlavors.desktop;
   linuxPackages_grsec_server_4_4     = grPackage kernelPatches.grsecurity_4_4 grFlavors.server;
   linuxPackages_grsec_server_xen_4_4 = grPackage kernelPatches.grsecurity_4_4 grFlavors.server_xen;
+
+  linuxPackages_grsec_desktop_4_5    = grPackage kernelPatches.grsecurity_4_5 grFlavors.desktop;
+  linuxPackages_grsec_server_4_5     = grPackage kernelPatches.grsecurity_4_5 grFlavors.server;
+  linuxPackages_grsec_server_xen_4_5 = grPackage kernelPatches.grsecurity_4_5 grFlavors.server_xen;
 
   linuxPackages_grsec_desktop_latest    = grPackage kernelPatches.grsecurity_latest grFlavors.desktop;
   linuxPackages_grsec_server_latest     = grPackage kernelPatches.grsecurity_latest grFlavors.server;
@@ -14828,7 +14855,9 @@ let
 
   stepmania = callPackage ../games/stepmania { };
 
-  stuntrally = callPackage ../games/stuntrally { };
+  stuntrally = callPackage ../games/stuntrally {
+    bullet = bullet283;
+  };
 
   superTux = callPackage ../games/super-tux { };
 
@@ -16351,6 +16380,7 @@ let
   misc = callPackage ../misc/misc.nix { };
 
   bullet = callPackage ../development/libraries/bullet {};
+  bullet283 = callPackage ../development/libraries/bullet/bullet283.nix {};
 
   dart = callPackage ../development/interpreters/dart { };
 
