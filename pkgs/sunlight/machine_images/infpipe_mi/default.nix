@@ -5,9 +5,9 @@
 
 stdenv.mkDerivation rec {
   name = "infpipe_mi";
-  version = "0.0.0+build.59.g143dd7d";
+  version = "0.0.0+build.61.gee12850";
 
-  src = sunlight.fetch {name = "infpipe_mi";version = "0.0.0+build.59.g143dd7d"; sha256 = "0zxy71wcn1h87ai47iq0f4cswgyrk94drqidalpw984mj5naxqng";};
+  src = sunlight.fetch {name = "infpipe_mi";version = "0.0.0+build.61.gee12850"; sha256 = "055jcx5hrah8sc96z54r4s1n58pjg5facwm03rqgx6j0k9hvanw4";};
 
   LOCALE_ARCHIVE = "${glibcLocales}/lib/locale/locale-archive";
 
@@ -27,7 +27,7 @@ stdenv.mkDerivation rec {
   LC_ALL=LANG;
 
 
-  buildInputs = with sunlight; [ infcli infpipe makeWrapper ];
+  buildInputs = with sunlight; [ infcli infpipe infutils makeWrapper ];
 
   installPhase = ''
     runHook preInstall
