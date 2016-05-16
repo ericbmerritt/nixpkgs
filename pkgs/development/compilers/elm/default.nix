@@ -1,4 +1,4 @@
-{ lib, stdenv, buildEnv, haskell, nodejs, fetchurl, fetchpatch, makeWrapper }:
+{ stdenv, lib, pkgs, buildEnv, haskell, nodejs, fetchurl, fetchpatch, makeWrapper }:
 
 # To update:
 # 1) Update versions in ./update-elm.rb and run it.
@@ -69,10 +69,22 @@ let
         elmVersion = elmRelease.version;
       };
   };
-in hsPkgs.elmPkgs // {
-  elm = buildEnv {
-    name = "elm-${hsPkgs.elmVersion}";
-    paths = lib.mapAttrsToList (name: pkg: pkg) hsPkgs.elmPkgs;
-    pathsToLink = [ "/bin" ];
+  self = hsPkgs.elmPkgs // rec {
+    elm = buildEnv {
+      name = "elm-${hsPkgs.elmVersion}";
+      paths = lib.mapAttrsToList (name: pkg: pkg) hsPkgs.elmPkgs;
+      pathsToLink = [ "/bin" ];
+    };
+
+    library = callPackage ./library.nix {};
+    app = callPackage ./app.nix {};
+
+    callPackage = pkgs.lib.callPackageWith (pkgs // self);
+
+    core = callPackage ../../elm-modules/elm-lang/core.nix {};
+    html = callPackage ../../elm-modules/elm-lang/html.nix {};
+    markdown = callPackage ../../elm-modules/evancz/elm-markdown.nix {};
+    virtual-dom = callPackage ../../elm-modules/elm-lang/virtual-dom.nix {};
+
   };
-}
+in self
