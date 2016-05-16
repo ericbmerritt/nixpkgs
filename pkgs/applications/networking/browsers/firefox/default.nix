@@ -3,7 +3,7 @@
 , freetype, fontconfig, file, alsaLib, nspr, nss, libnotify
 , yasm, mesa, sqlite, unzip, makeWrapper, pysqlite
 , hunspell, libevent, libstartup_notification, libvpx
-, cairo, gstreamer, gst_plugins_base, icu, libpng, jemalloc, libpulseaudio
+, cairo, icu, libpng, jemalloc, libpulseaudio
 , enableGTK3 ? false
 , debugBuild ? false
 , # If you want the resulting program to call itself "Firefox" instead
@@ -18,14 +18,14 @@ assert stdenv.cc ? libc && stdenv.cc.libc != null;
 
 let
 
-common = { pname, version, sha512 }: stdenv.mkDerivation rec {
+common = { pname, version, sha256 }: stdenv.mkDerivation rec {
   name = "${pname}-unwrapped-${version}";
 
   src = fetchurl {
     url =
       let ext = if lib.versionAtLeast version "41.0" then "xz" else "bz2";
-      in "http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${version}/source/firefox-${version}.source.tar.${ext}";
-    inherit sha512;
+      in "mirror://mozilla/firefox/releases/${version}/source/firefox-${version}.source.tar.${ext}";
+    inherit sha256;
   };
 
   buildInputs =
@@ -34,9 +34,9 @@ common = { pname, version, sha512 }: stdenv.mkDerivation rec {
       xorg.libX11 xorg.libXrender xorg.libXft xorg.libXt file
       alsaLib nspr nss libnotify xorg.pixman yasm mesa
       xorg.libXScrnSaver xorg.scrnsaverproto pysqlite
-      xorg.libXext xorg.xextproto sqlite unzip makeWrapper
-      hunspell libevent libstartup_notification libvpx /* cairo */
-      gstreamer gst_plugins_base icu libpng jemalloc
+      xorg.libXext xorg.xextproto /* sqlite */ unzip makeWrapper
+      hunspell libevent libstartup_notification /* libvpx */ /* cairo */
+      icu libpng jemalloc
       libpulseaudio # only headers are needed
     ]
     ++ lib.optional enableGTK3 gtk3;
@@ -50,15 +50,14 @@ common = { pname, version, sha512 }: stdenv.mkDerivation rec {
       "--with-system-nspr"
       "--with-system-nss"
       "--with-system-libevent"
-      "--with-system-libvpx"
+      #"--with-system-libvpx" # needs 1.5.0
       "--with-system-png" # needs APNG support
       "--with-system-icu"
       "--enable-system-ffi"
       "--enable-system-hunspell"
       "--enable-system-pixman"
-      "--enable-system-sqlite"
+      #"--enable-system-sqlite"
       #"--enable-system-cairo"
-      "--enable-gstreamer"
       "--enable-startup-notification"
       "--enable-content-sandbox"            # available since 26.0, but not much info available
       "--disable-content-sandbox-reporter"  # keeping disabled for now
@@ -69,6 +68,7 @@ common = { pname, version, sha512 }: stdenv.mkDerivation rec {
       "--disable-updater"
       "--enable-jemalloc"
       "--disable-gconf"
+      "--enable-default-toolkit=cairo-gtk2"
     ]
     ++ lib.optional enableGTK3 "--enable-default-toolkit=cairo-gtk3"
     ++ (if debugBuild then [ "--enable-debug" "--enable-profiling" ]
@@ -130,14 +130,14 @@ in {
 
   firefox-unwrapped = common {
     pname = "firefox";
-    version = "45.0.2";
-    sha512 = "8c0b7afb41a1a405fe499299d1a8b1138dac52b9ad67bfc8761b70a26f330581c2aa1d76d67075896ec3a0c3f5367b8b58365ebc8b3a01f801fa37071b3de526";
+    version = "46.0.1";
+    sha256 = "1ycb35x40ssmmvgppljdyvf3iax6sbzf2k90yckf9qxp64m2kf4q";
   };
 
   firefox-esr-unwrapped = common {
     pname = "firefox-esr";
-    version = "45.0.2esr";
-    sha512 = "a1e9e9371ee47181b01252d60166c405a7835063dffb4928dfb8abb9f151edd8db1dd2b59f35d7898f1660a0fcd8e41f91a3e799c25b6dd43b6ab056bc5ad6bf";
+    version = "45.1.1esr";
+    sha256 = "0qj5s006m68d1fq2k0759dj3a7m615dz3xqkl7jxzgff3jm3czm2";
   };
 
 }

@@ -22,10 +22,11 @@ let
     assert kversion == kernel.version;
     { name = "grsecurity-${grversion}-${kversion}";
       inherit grversion kernel patches kversion revision;
+      # When updating versions/hashes, ALWAYS use the official version; we use
+      # this mirror only because upstream removes sources files immediately upon
+      # releasing a new version ...
       patch = fetchurl {
-        url = if branch == "stable"
-              then "https://github.com/kdave/grsecurity-patches/blob/master/grsecurity_patches/grsecurity-${grversion}-${kversion}-${revision}.patch?raw=true"
-              else "https://github.com/slashbeast/grsecurity-scrape/blob/master/${branch}/grsecurity-${grversion}-${kversion}-${revision}.patch?raw=true";
+        url = "https://raw.githubusercontent.com/slashbeast/grsecurity-scrape/master/test/grsecurity-${grversion}-${kversion}-${revision}.patch";
         inherit sha256;
       };
       features.grsecurity = true;
@@ -117,7 +118,15 @@ rec {
       sha256    = "04k4nhshl6r5n41ha5620s7cd70dmmmvyf9mnn5359jr1720kxpf";
     };
 
-  grsecurity_latest = grsecurity_4_4;
+  grsecurity_4_5 = grsecPatch
+    { kernel    = pkgs.grsecurity_base_linux_4_5;
+      patches   = [ grsecurity_fix_path_4_5 ];
+      kversion  = "4.5.4";
+      revision  = "201605131918";
+      sha256    = "0f5s8lj6zc4jp2cpxm7r891px3dmb6m3ximfigwq809yydg5aimv";
+    };
+
+  grsecurity_latest = grsecurity_4_5;
 
   grsecurity_fix_path_3_14 =
     { name = "grsecurity-fix-path-3.14";
@@ -127,6 +136,11 @@ rec {
   grsecurity_fix_path_4_4 =
     { name = "grsecurity-fix-path-4.4";
       patch = ./grsecurity-path-4.4.patch;
+    };
+
+  grsecurity_fix_path_4_5 =
+    { name = "grsecurity-fix-path-4.5";
+      patch = ./grsecurity-path-4.5.patch;
     };
 
   crc_regression =
@@ -158,5 +172,9 @@ rec {
   chromiumos_mfd_fix_dependency =
     { name = "mfd_fix_dependency";
       patch = ./chromiumos-patches/mfd-fix-dependency.patch;
+    };
+  qat_common_Makefile =
+    { name = "qat_common_Makefile";
+      patch = ./qat_common_Makefile.patch;
     };
 }

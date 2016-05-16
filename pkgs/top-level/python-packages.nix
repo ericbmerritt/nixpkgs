@@ -10758,6 +10758,22 @@ in modules // {
     };
   };
 
+  kerberos = buildPythonPackage rec {
+    name = "kerberos-1.2.4";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/k/kerberos/${name}.tar.gz";
+      sha256 = "11q9jhzdl88jh8jgn7cycq034m36g2ncxds7mr3vqkngpcirkx6n";
+    };
+
+    buildInputs = [ pkgs.kerberos ];
+
+    meta = {
+      description = "Kerberos high-level interface";
+      homepage = https://pypi.python.org/pypi/kerberos;
+      license = licenses.asl20;
+    };
+  };
 
   keyring = buildPythonPackage rec {
     name = "keyring-8.4.1";
@@ -15651,12 +15667,7 @@ in modules // {
     # See also the older issue: https://code.google.com/p/psutil/issues/detail?id=434
     doCheck = false;
 
-    checkPhase = ''
-      ${python.interpreter} test/test_psutil.py
-    '';
-
-    # Test suite needs `free`, therefore we have pkgs.busybox
-    buildInputs = with self; [ mock pkgs.busybox] ++ optionals stdenv.isDarwin [ pkgs.darwin.IOKit ];
+    buildInputs = with self; [ mock ] ++ optionals stdenv.isDarwin [ pkgs.darwin.IOKit ];
 
     meta = {
       description = "Process and system utilization information interface for python";
