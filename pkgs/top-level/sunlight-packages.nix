@@ -20,5 +20,6 @@ let
     infpipe = callPackage ../sunlight/tools/infpipe {};
     infpipe_mi = callPackage ../sunlight/machine_images/infpipe_mi {};
     infutils = callPackage ../sunlight/tools/infutils {};
+    dev-vpn-ca = callPackage ../sunlight/control/dev-vpn-ca {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
