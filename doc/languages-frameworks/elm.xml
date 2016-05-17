@@ -1,0 +1,152 @@
+<chapter xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xml:id="users-guide-to-the-elm-infrastructure">
+
+<title>User's Guide to the Elm Infrastructure</title>
+<section xml:id="build-tools">
+  <title>Build Tools</title>
+  <para>
+    Elm is built with the help of elm-make which comes as part of
+    elmPackages.core.
+  </para>
+</section>
+
+<section xml:id="how-to-install-elm-packages">
+  <title>How to install Elm packages</title>
+  <para>
+    Elm packages are not registered in the top level simply because
+    they are not relevant to the vast majority of Nix users. They are
+    installable using the <literal>elmPackages</literal> attribute set.
+
+    You can list the available packages in the
+    <literal>elmPackages</literal> with the following command:
+  </para>
+
+  <programlisting>
+$ nix-env -f &quot;&lt;nixpkgs&gt;&quot; -qaP -A elmPackages
+elmPackages.elm           elm-0.17.0
+elmPackages.elm-compiler  elm-compiler-0.17
+elmPackages.core          elm-lang-core-4.0.0
+elmPackages.html          elm-lang-html-1.0.0
+elmPackages.virtual-dom   elm-lang-virtual-dom-1.0.0
+elmPackages.elm-make      elm-make-0.17
+elmPackages.elm-package   elm-package-0.17
+elmPackages.elm-reactor   elm-reactor-0.17
+elmPackages.elm-repl      elm-repl-0.17
+elmPackages.markdown      evancz-elm-markdown-3.0.0
+  </programlisting>
+  <para>
+    To install any of those packages into your profile, refer to them by
+    their attribute path (first column):
+  </para>
+  <programlisting>
+$ nix-env -f &quot;&lt;nixpkgs&gt;&quot; -iA elmPackages.html
+  </programlisting>
+</section>
+<section xml:id="packaging-elm-applications">
+  <title>Packaging Elm Applications</title>
+  <section>
+    <para>
+      There is a Nix functional called
+      <literal>app</literal>. Which can be used to make a derivation that
+      understands how to build the elm project. Like the following example:
+    </para>
+    <programlisting>
+{ elmPackages, fetchurl, glibcLocales, stdenv }:
+
+with elmPackages; app rec {
+  name = "foo";
+  version = "0.0.1";
+  src = "./.;
+
+  LOCALE_ARCHIVE = "\${glibcLocales}/lib/locale/locale-archive";
+
+  LANG="en_US.UTF-8";
+  LC_CTYPE=LANG;
+  LC_NUMERIC=LANG;
+  LC_TIME=LANG;
+  LC_COLLATE=LANG;
+  LC_MONETARY=LANG;
+  LC_MESSAGES=LANG;
+  LC_PAPER=LANG;
+  LC_NAME=LANG;
+  LC_ADDRESS=LANG;
+  LC_TELEPHONE=LANG;
+  LC_MEASUREMENT=LANG;
+  LC_IDENTIFICATION=LANG;
+  LC_ALL=LANG;
+
+  buildInputs = [ elmPackages.elm-make ];
+
+  elmDeps = with elmPackages; [ core html virtual-dom ];
+
+  installPhase = ''
+    mkdir -p \$out/var/foo
+    cp -r _build/* \$out/var/foo
+  '';
+
+  meta = {
+    description = "foo bar";
+    license = stdenv.lib.licenses.unfree;
+  };
+}
+    </programlisting>
+    <para>
+      The only visible difference between this derivation and
+      something like <literal>stdenv.mkDerivation</literal> is the
+      added <literal>elmDeps</literal> derivation.
+    </para>
+    <programlisting>
+elm-make $(ELM_MAIN) --output $(BUILDDIR)/index.html
+    </programlisting>
+   </section>
+</section>
+<section xml:id="how-to-develop">
+  <title>How to develop</title>
+  <section xml:id="creating-a-shell">
+    <title>Creating a Shell</title>
+    <para>
+      To create a <literal>shell.nix</literal> file and do the development
+      inside of the environment specified by that file. This file looks a lot
+      like the packaging described above. The main difference is that
+      <literal>src</literal> points to project root and it can package directly.
+    </para>
+    <programlisting>
+{ pkgs ? import &quot;&lt;nixpkgs&quot;&gt; {} }:
+
+with pkgs;
+
+let
+    f =  { elmPackages, git, stdenv }:
+           with elmPackages; app rec {
+              name = "foo";
+              version = "0.0.1";
+              src = ./.;
+
+              LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+
+              LANG="en_US.UTF-8";
+              LC_CTYPE=LANG;
+              LC_NUMERIC=LANG;
+              LC_TIME=LANG;
+              LC_COLLATE=LANG;
+              LC_MONETARY=LANG;
+              LC_MESSAGES=LANG;
+              LC_PAPER=LANG;
+              LC_NAME=LANG;
+              LC_ADDRESS=LANG;
+              LC_TELEPHONE=LANG;
+              LC_MEASUREMENT=LANG;
+              LC_IDENTIFICATION=LANG;
+              LC_ALL=LANG;
+
+              buildInputs = [ elm-make git ];
+              elmDeps = [ core html virtual-dom ];
+          };
+  drv = callPackage f { };
+
+in drv
+    </programlisting>
+  </section>
+</section>
+</chapter>
