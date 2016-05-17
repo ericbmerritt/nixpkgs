@@ -22,5 +22,6 @@ let
     infutils = callPackage ../sunlight/tools/infutils {};
     dev-vpn-ca = callPackage ../sunlight/control/dev-vpn-ca {};
     devvpn_mi = callPackage ../sunlight/machines_images/devvpn_mi {};
+    infdesc = callPackage ../sunlight/config/infdesc {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
