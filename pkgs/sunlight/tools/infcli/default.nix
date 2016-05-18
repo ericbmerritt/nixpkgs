@@ -14,8 +14,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "infcli";
-  version = "0.0.6+build.24.g52a4217";
-  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.24.g52a4217"; sha256 = "0h5xv4r4bhg5m1xx9achshd7c5m2lvn7dpqp7p58iigml52957vh";};
+  version = "0.0.6+build.28.g5ea4568";
+  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.28.g5ea4568"; sha256 = "1sjscmzq2r2g9xjpz2r16db6mqzaj168ivky7q21fngbk98ziza4";};
 
   isLibrary = true;
   isExecutable = true;
