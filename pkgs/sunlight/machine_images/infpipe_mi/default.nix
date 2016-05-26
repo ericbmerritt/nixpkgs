@@ -5,9 +5,9 @@
 
 stdenv.mkDerivation rec {
   name = "infpipe_mi";
-  version = "0.0.0+build.68.g6d28b32";
+  version = "0.0.0+build.70.gc7abc2e";
 
-  src = sunlight.fetch {name = "infpipe_mi";version = "0.0.0+build.68.g6d28b32"; sha256 = "1ncz5f76j7l8sj8jqim2fb0rc6f4ix19kzgxpjihpy9v4d7nsm4p";};
+  src = sunlight.fetch {name = "infpipe_mi";version = "0.0.0+build.70.gc7abc2e"; sha256 = "0i2cjl9vbaw3hkwgd4kschcbbq8rld064m8b0xkby898znbl7gva";};
 
   LOCALE_ARCHIVE = "${glibcLocales}/lib/locale/locale-archive";
 
