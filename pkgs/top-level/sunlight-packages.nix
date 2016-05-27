@@ -25,5 +25,6 @@ let
     infdesc = callPackage ../sunlight/config/infdesc {};
     sunlightapi = callPackage ../sunlight/sunlightapi {};
     webui = callPackage ../sunlight/webui {};
+    sunlightapi_mi = callPackage ../sunlight/sunlightapi_mi {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
