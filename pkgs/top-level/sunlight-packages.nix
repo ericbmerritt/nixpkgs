@@ -22,7 +22,7 @@ let
     infutils = callPackage ../sunlight/tools/infutils {};
     dev-vpn-ca = callPackage ../sunlight/control/dev-vpn-ca {};
     devvpn_mi = callPackage ../sunlight/machine_images/devvpn_mi {};
-    infdesc = callPackage ../sunlight/config/infdesc {};
+    infdesc = callPackage ../sunlight/infdesc {};
     sunlightapi = callPackage ../sunlight/sunlightapi {};
     webui = callPackage ../sunlight/webui {};
     sunlightapi_mi = callPackage ../sunlight/sunlightapi_mi {};
