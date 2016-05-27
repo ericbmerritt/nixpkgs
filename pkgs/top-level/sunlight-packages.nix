@@ -24,5 +24,6 @@ let
     devvpn_mi = callPackage ../sunlight/machine_images/devvpn_mi {};
     infdesc = callPackage ../sunlight/config/infdesc {};
     sunlightapi = callPackage ../sunlight/sunlightapi {};
+    webui = callPackage ../sunlight/webui {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
