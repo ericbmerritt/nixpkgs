@@ -23,5 +23,6 @@ let
     dev-vpn-ca = callPackage ../sunlight/control/dev-vpn-ca {};
     devvpn_mi = callPackage ../sunlight/machine_images/devvpn_mi {};
     infdesc = callPackage ../sunlight/config/infdesc {};
+    sunlightapi = callPackage ../sunlight/sunlightapi {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
