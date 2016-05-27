@@ -16,7 +16,7 @@ let
    eqc = callPackage ../sunlight/tools/eqc {};
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/control/public-keys {};
-    infcli = callPackage ../sunlight/tools/infcli {};
+    infcli = callPackage ../sunlight/infcli {};
     infpipe = callPackage ../sunlight/tools/infpipe {};
     infpipe_mi = callPackage ../sunlight/machine_images/infpipe_mi {};
     infutils = callPackage ../sunlight/tools/infutils {};
