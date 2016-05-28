@@ -14,8 +14,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "infcli";
-  version = "0.0.6+build.40.g6ce8753";
-  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.40.g6ce8753"; sha256 = "17rdi0r1dibcpv5kwgr90nh12bbj52cafxydp3475v8w9d7hanwg";};
+  version = "0.0.6+build.42.ge93491c";
+  src = sunlight.fetch {name = "infcli";version = "0.0.6+build.42.ge93491c"; sha256 = "1zchmnr36f5d3a2rfgnkq5kz4657hnz9v3k5a0k1awqn0nnzqzwv";};
 
   isLibrary = true;
   isExecutable = true;
@@ -71,7 +71,9 @@ with haskellPackages; mkDerivation {
 
   postInstall = ''
      wrapProgram $out/bin/infcli \
+         --suffix PATH : ${awscli}/bin \
          --suffix PATH : ${bash}/bin \
+         --suffix PATH : ${easyrsa}/bin \
          --suffix PATH : ${gitMinimal}/bin \
          --suffix PATH : ${gnupg}/bin \
          --suffix PATH : ${nix}/bin \
