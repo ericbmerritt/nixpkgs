@@ -5,8 +5,8 @@
 
 stdenv.mkDerivation rec {
   name = "infdesc";
-  version = "0.0.0+build.81.gcdb5b0a";
-  src = sunlight.fetch {name = "infdesc";version = "0.0.0+build.81.gcdb5b0a"; sha256 = "10cy9wa2lj5x2w5nw7g86wb0p5qd1ln0a75s4psyz4x8k178fwd3";};
+  version = "0.0.0+build.83.gd1b1898";
+  src = sunlight.fetch {name = "infdesc";version = "0.0.0+build.83.gd1b1898"; sha256 = "12lmbwhzfhcfbf9j7i0zrbc1lafra2y58jgxij2x5bsas1862var";};
 
   phases = [ "unpackPhase" "installPhase" ];
 
