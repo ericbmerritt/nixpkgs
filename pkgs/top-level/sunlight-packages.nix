@@ -21,7 +21,7 @@ let
     infpipe_mi = callPackage ../sunlight/machine_images/infpipe_mi {};
     infutils = callPackage ../sunlight/tools/infutils {};
     dev-vpn-ca = callPackage ../sunlight/control/dev-vpn-ca {};
-    devvpn_mi = callPackage ../sunlight/machine_images/devvpn_mi {};
+    devvpn_mi = callPackage ../sunlight/devvpn_mi {};
     infdesc = callPackage ../sunlight/infdesc {};
     sunlightapi = callPackage ../sunlight/sunlightapi {};
     webui = callPackage ../sunlight/webui {};
