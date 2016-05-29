@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, zlib, xz, python ? null, pythonSupport ? true, findXMLCatalogs }:
+{ stdenv, fetchurl, zlib, xz, python ? null, pythonSupport ? true, findXMLCatalogs, fetchpatch }:
 
 assert pythonSupport -> python != null;
 
@@ -6,11 +6,18 @@ assert pythonSupport -> python != null;
 
 stdenv.mkDerivation (rec {
   name = "libxml2-${version}";
-  version = "2.9.3";
+  version = "2.9.4";
 
   src = fetchurl {
     url = "http://xmlsoft.org/sources/${name}.tar.gz";
-    sha256 = "0bd17g6znn2r98gzpjppsqjg33iraky4px923j3k8kdl8qgy7sad";
+    sha256 = "0g336cr0bw6dax1q48bblphmchgihx9p1pjmxdnrd6sh3qci3fgz";
+  };
+
+  # https://bugzilla.gnome.org/show_bug.cgi?id=766834#c5
+  postPatch = "patch -R < " + fetchpatch {
+    name = "schemas-validity.patch";
+    url = "https://git.gnome.org/browse/libxml2/patch/?id=f6599c5164";
+    sha256 = "0i7a0nhxwkxx6dkm8917qn0bsfn1av6ghg2f4dxanxi4bn4b1jjn";
   };
 
   outputs = [ "out" "doc" ];
