@@ -1,13 +1,13 @@
 { stdenv, fetchurl, qt4, muparser, which, boost, pkgconfig }:
 
 stdenv.mkDerivation rec {
-  version = "2.0.8";
+  version = "2.0.10";
   name = "librecad-${version}";
 
   src = fetchurl {
     url = "https://github.com/LibreCAD/LibreCAD/tarball/${version}";
     name = name + ".tar.gz";
-    sha256 = "110vn1rvzidg8k6ifz1zws2wsn4cd05xl5ha0hbff2ln7izy84zc";
+    sha256 = "13jr0zkirnnpkbx8ysh7j6sh2psxi1dg7ncfjqzyxrcr2b270rcj";
   };
 
   patchPhase = ''

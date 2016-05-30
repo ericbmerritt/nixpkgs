@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ makeWrapper ];
 
-  patchPhase = ''
+  prePatch = ''
     patchShebangs .
 
     # some hardcodeism
@@ -26,6 +26,8 @@ stdenv.mkDerivation rec {
 
     wrapProgram $out/bin/snabb --prefix PATH : "${ lib.makeBinPath [ git mariadb diffutils ]}"
   '';
+
+  enableParallelBuilding = true;
 
   meta = with stdenv.lib; {
     homepage = https://github.com/SnabbCo/snabbswitch;
