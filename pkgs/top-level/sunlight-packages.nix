@@ -18,7 +18,7 @@ let
     public-keys = callPackage ../sunlight/control/public-keys {};
     infcli = callPackage ../sunlight/infcli {};
     infpipe = callPackage ../sunlight/tools/infpipe {};
-    infpipe_mi = callPackage ../sunlight/machine_images/infpipe_mi {};
+    infpipe_mi = callPackage ../sunlight/infpipe_mi {};
     infutils = callPackage ../sunlight/infutils {};
     dev-vpn-ca = callPackage ../sunlight/dev-vpn-ca {};
     devvpn_mi = callPackage ../sunlight/devvpn_mi {};
