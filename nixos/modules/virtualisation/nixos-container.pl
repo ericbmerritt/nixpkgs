@@ -18,7 +18,7 @@ umask 0022;
 sub showHelp {
     print <<EOF;
 Usage: nixos-container list
-       nixos-container create <container-name> [--system-path <path>] [--config <string>] [--ensure-unique-name] [--auto-start]
+       nixos-container create <container-name> [--nixos-path <path>] [--system-path <path>] [--config <string>] [--ensure-unique-name] [--auto-start]
        nixos-container destroy <container-name>
        nixos-container start <container-name>
        nixos-container stop <container-name>
@@ -34,6 +34,7 @@ EOF
 }
 
 my $systemPath;
+my $nixosPath;
 my $ensureUniqueName = 0;
 my $autoStart = 0;
 my $extraConfig;
@@ -43,6 +44,7 @@ GetOptions(
     "ensure-unique-name" => \$ensureUniqueName,
     "auto-start" => \$autoStart,
     "system-path=s" => \$systemPath,
+    "nixos-path=s" => \$nixosPath,
     "config=s" => \$extraConfig
     ) or exit 1;
 
@@ -155,11 +157,12 @@ if ($action eq "create") {
     } else {
         mkpath("$root/etc/nixos", 0, 0755);
 
+        my $nixenvF = $nixosPath // "<nixpkgs/nixos>";
         my $nixosConfigFile = "$root/etc/nixos/configuration.nix";
         writeNixOSConfig $nixosConfigFile;
 
         system("nix-env", "-p", "$profileDir/system",
-               "-I", "nixos-config=$nixosConfigFile", "-f", "<nixpkgs/nixos>",
+               "-I", "nixos-config=$nixosConfigFile", "-f", "$nixenvF",
                "--set", "-A", "system") == 0
             or die "$0: failed to build initial container configuration\n";
     }
