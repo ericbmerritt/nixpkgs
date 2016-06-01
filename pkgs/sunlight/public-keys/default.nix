@@ -9,8 +9,8 @@
 
 stdenv.mkDerivation rec {
   name = "public-keys";
-  version = "0.0.12+build.12.gb970471";
-  src = sunlight.fetch {name = "public-keys";version = "0.0.12+build.12.gb970471"; sha256 = "0qb5gnnghy0d3ngc40d5caxfmfskrnhxd3yklfcy0hrpld4wrh64";};
+  version = "0.0.12+build.14.g87ecf15";
+  src = sunlight.fetch {name = "public-keys";version = "0.0.12+build.14.g87ecf15"; sha256 = "0zwr3c8jxx9hz7c98bmml3n2has9lhlx7m30ri5fh1v42l0p3pd9";};
 
   buildInputs = [ makeWrapper ];
 
