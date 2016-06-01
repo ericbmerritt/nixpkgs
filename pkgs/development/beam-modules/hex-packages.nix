@@ -5052,21 +5052,20 @@ let
 
     cuckoo = cuckoo_1_0_0;
 
-    cucumberl_0_0_6 = callPackage
+    cucumberl_0_0_10 = callPackage
       (
         {  buildRebar3, packageOverrides ? {}, fetchHex }:
           buildRebar3 ({
             name = "cucumberl";
-            version = "0.0.6";
+            version = "0.0.10";
             src = fetchHex {
               pkg = "cucumberl";
-              version = "0.0.6";
+              version = "0.0.10";
               sha256 =
-                "3b9ea813997fd8c1e3d2b004e89288496dc21d2e5027f432e5900569d2c61cf3";
-            };
+                "044i26fwmdb6sl348kmi113zw578gsjwbg1xi138qb302v877gak";
+             };
 
             buildPlugins  = [ rebar3_hex ];
-
 
             meta = {
               description = ''A pure-erlang implementation of Cucumber.'';
@@ -5076,7 +5075,7 @@ let
           } // packageOverrides)
       ) {};
 
-    cucumberl = cucumberl_0_0_6;
+    cucumberl = cucumberl_0_0_10;
 
     cuid_0_1_0 = callPackage
       (
