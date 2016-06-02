@@ -14,6 +14,7 @@ let
 
    terraform = callPackage ../sunlight/tools/terraform {};
    eqc = callPackage ../sunlight/tools/eqc {};
+   eqc_ex = callPackage ../sunlight/tools/eqc_ex {};
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
     infcli = callPackage ../sunlight/infcli {};
