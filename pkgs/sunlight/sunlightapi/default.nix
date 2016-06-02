@@ -5,9 +5,9 @@
 
 beamPackages.buildMix {
   name = "sunlightapi";
-  version = "0.0.0+build.7.9bc9638";
+  version = "0.0.0+build.11.g9e1d988";
 
-  src = sunlight.fetch {name = "sunlightapi";version = "0.0.0+build.7.9bc9638"; sha256 = "1ylm74fg8nwj9lgms09l5ndf537vayarldq4vcblf2jf8vcc11lf";};
+  src = sunlight.fetch {name = "sunlightapi";version = "0.0.0+build.11.g9e1d988"; sha256 = "0yfa9rxq595d1lzdgm6f4cgzz0mybva3isbmg1mbg0ny2naazjlg";};
 
   buildInputs = with sunlight; [ git relxExe erlang ];
 
