@@ -27,5 +27,6 @@ let
     sunlightapi = callPackage ../sunlight/sunlightapi {};
     webui = callPackage ../sunlight/webui {};
     sunlightapi_mi = callPackage ../sunlight/sunlightapi_mi {};
+    workspace = callPackage ../sunlight/workspace {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 }; in self
