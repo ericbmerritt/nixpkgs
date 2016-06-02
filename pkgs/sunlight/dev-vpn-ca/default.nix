@@ -5,8 +5,8 @@
 
 stdenv.mkDerivation rec {
   name = "dev-vpn-ca";
-  version = "0.0.0+build.23.gd9009ee";
-  src = sunlight.fetch {name = "dev-vpn-ca";version = "0.0.0+build.23.gd9009ee"; sha256 = "0dlq5h7idgqfbwwc50pjbmhd95z087h3yxv3a4h3m2zl748lv2s3";};
+  version = "0.0.0+build.25.g20735de";
+  src = sunlight.fetch {name = "dev-vpn-ca";version = "0.0.0+build.25.g20735de"; sha256 = "0wms87axy4rgiaxbh5kv68pnqsw4mcczxay2d3s2hbf1vzq10znr";};
 
   phases = [ "unpackPhase" "installPhase" ];
 
