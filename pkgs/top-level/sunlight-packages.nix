@@ -12,13 +12,13 @@ let
       rev = "refs/tags/${version}";
     } // { inherit rev; };
 
-   terraform = callPackage ../sunlight/tools/terraform {};
-   eqc = callPackage ../sunlight/tools/eqc {};
-   eqc_ex = callPackage ../sunlight/tools/eqc_ex {};
+   terraform = callPackage ../sunlight/terraform {};
+   eqc = callPackage ../sunlight/eqc {};
+   eqc_ex = callPackage ../sunlight/eqc_ex {};
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
     infcli = callPackage ../sunlight/infcli {};
-    infpipe = callPackage ../sunlight/tools/infpipe {};
+    infpipe = callPackage ../sunlight/infpipe {};
     infpipe_mi = callPackage ../sunlight/infpipe_mi {};
     infutils = callPackage ../sunlight/infutils {};
     dev-vpn-ca = callPackage ../sunlight/dev-vpn-ca {};
