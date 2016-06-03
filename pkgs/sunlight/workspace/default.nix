@@ -8,8 +8,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "workspace";
-  version = "0.0.0+build.3.8fe7650";
-  src = sunlight.fetch {name = "workspace";version = "0.0.0+build.3.8fe7650"; sha256 = "1n2zhk72c0yh0x03waijppcfvd270grlwinpa2kinbdq3mf93dyx";};
+  version = "0.0.0+build.5.g86adca9";
+  src = sunlight.fetch {name = "workspace";version = "0.0.0+build.5.g86adca9"; sha256 = "1p2z1hd908fjw1lx9dvlrrphh11mzl583m65xfkcixsjrg65ql1i";};
 
   isLibrary = true;
   isExecutable = true;
