@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ unzip erlang ]; # xdg-open used in doc helper scripts
 
-  dontstrip = true;
+  dontStrip = true;
   outputs = [ "out" "docs" "emacs" "examples" ];
   
   builder = ./builder.sh;
@@ -25,11 +25,13 @@ main([]) ->
   '';
 
   setupHook = writeText "setuphook.sh" ''
-     echo "### Awaiting feature request for EQC to set location of .quviq2, temporarily overriding HOME ###"
-     export HOME=/tmp
      addToSearchPath ERL_LIBS "$1/lib/erlang/lib/"
-     echo yes | ${erlang}/bin/escript ${register-eqc}
-     echo "Set up EQC for $(id -un) with license in $HOME"
+     if [ "$(id -un)" = "nixbld" ]
+     then
+       export HOME=$(mktemp -d eqc-nixbld-XXXXXXX --tmpdir)
+       echo "Registering site license for nixbld user into $HOME"
+       echo yes | ${erlang}/bin/escript ${register-eqc} || true
+     fi
      '';
 
   meta = {
