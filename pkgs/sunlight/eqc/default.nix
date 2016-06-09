@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
   register-eqc = writeText "register-eqc.escript" ''
 #! escript -I $out/lib/erlang/eqc-${version}
 main([]) ->
-  eqc:registration("SITEg2wAAAABboAAyLVD6YVWuqa83tGsaTFdev4SghINUzb2RfuZESaxRz0OoMuqIHmKD6adti4ln2WKsHdS4emwtlJC0z026JKEUWxcZLzM6PyWx9xzU3f332TIHj9PFbuDIYhWFX3gki+miMr7ZfqM7CL3X2tPQlM7BpSRgsDJ5cC6kAvvNlZgWWVq"),
+  eqc:registration("SITEg2wAAAACboAA09tRuo46e1KXlAlCHrsj83ONrYgk7bnfIZYofgDCoSbv3DVVMH1JaHWjpVuMIH9t4vXHIpxHRV/N7D0IOd9fjF0av8+b4OkEHegHHlBDaS/9h07BGrnOBLSYJ2+CzIA+popYIUo4bytJXRCl/NYnzBbs1Imga6qpVbg8COPwarJugAA7i+23OBQ3eFPttdZQcrABnlx/4SM+vCGlevbGB6TFdCuRXLOnf6m1w0BpIIh61fwuNS9CoE1uvV8j1KuxSoN8dwGT2N9SSNfZroVEtaQt+jcaoGj7Xo2PlYxLuflV+qzhh8TqMNfxCwkjRxwkfXaK9DAJBKWPmhGRS7sxwTVrimo="),
   eqc:start(),
   init:stop().
   '';
