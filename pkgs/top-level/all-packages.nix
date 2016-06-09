@@ -10608,6 +10608,8 @@ let
 
     dpdk = callPackage ../os-specific/linux/dpdk { };
 
+    pktgen = callPackage ../os-specific/linux/pktgen { };
+
     e1000e = callPackage ../os-specific/linux/e1000e {};
 
     v4l2loopback = callPackage ../os-specific/linux/v4l2loopback { };
@@ -16091,6 +16093,8 @@ let
   robomongo = qt5.callPackage ../applications/misc/robomongo { };
 
   rucksack = callPackage ../development/tools/rucksack { };
+
+  sam-ba = callPackage ../tools/misc/sam-ba { };
 
   opkg = callPackage ../tools/package-management/opkg { };
 
