@@ -5,8 +5,8 @@
 
 stdenv.mkDerivation rec {
   name = "sunlightapi_mi";
-  version = "0.0.0+build.15.g02544b4";
-  src = sunlight.fetch {name = "sunlightapi_mi";version = "0.0.0+build.15.g02544b4"; sha256 = "1bynxcs9shbxgxxyj4cf2l9x2m2xv4dzwm10g1nyghq8f45d1xrg";};
+  version = "0.0.0+build.18.gefe8b43";
+  src = sunlight.fetch {name = "sunlightapi_mi";version = "0.0.0+build.18.gefe8b43"; sha256 = "0546xdr4yfd06gliigb25fnnfcn18dcsj67zng7syhrq0hvn8p5w";};
 
   dontStrip = true;
 
