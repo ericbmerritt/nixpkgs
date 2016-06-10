@@ -9,5 +9,5 @@ buildMix rec
     rev = "fdfa4c3b7d8f37e0b358704a4feeaa8f4ba4820f";
     sha256 = "1ziyp8c17hb98z6yiykm434k68qyh3wal78chj2lhpjlq3wvc7ai";
   };
-  beamDeps = [ sunlight.eqc ];
-} 
+  beamDeps = [ sunlight.third-party.eqc ];
+}

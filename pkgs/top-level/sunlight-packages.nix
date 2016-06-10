@@ -1,6 +1,6 @@
 /* This file defines the composition for all sunlight packages */
 
-{ fetchgit, stdenv, callPackage, haskellPackages }:
+{ fetchgit, stdenv, callPackage, haskellPackages, recurseIntoAttrs }:
 
 let
   self = _self;
@@ -12,9 +12,13 @@ let
       rev = "refs/tags/${version}";
     } // { inherit rev; };
 
-   terraform = callPackage ../sunlight/terraform {};
-   eqc = callPackage ../sunlight/eqc {};
-   eqc_ex = callPackage ../sunlight/eqc_ex {};
+    third-party = recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {});
+
+    # !!! These are deprecated, use sunlightThirdParty instead !!!
+    terraform = (recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {})).terraform;
+    eqc = (recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {})).eqc;
+    eqc_ex = (recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {})).eqc_ex;
+
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
     infcli = callPackage ../sunlight/infcli {};
