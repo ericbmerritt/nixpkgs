@@ -8,8 +8,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "workspace";
-  version = "0.0.0+build.5.g86adca9";
-  src = sunlight.fetch {name = "workspace";version = "0.0.0+build.5.g86adca9"; sha256 = "1p2z1hd908fjw1lx9dvlrrphh11mzl583m65xfkcixsjrg65ql1i";};
+  version = "0.0.0+build.8.g3d04e04";
+  src = sunlight.fetch {name = "workspace";version = "0.0.0+build.8.g3d04e04"; sha256 = "0lyddiar8rfvvfcx4gnc2l7yxdx44jm68mcb0wanny114bb01039";};
 
   isLibrary = true;
   isExecutable = true;
@@ -26,6 +26,8 @@ with haskellPackages; mkDerivation {
     shelly
     text
     vector
+    aeson
+    bytestring
   ];
 
   executableHaskellDepends = [
