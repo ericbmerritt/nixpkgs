@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.services.sunlightapi;
   sysConfigFile = pkgs.writeText "sys.config" ''
-    [{rest_server, [{postgresql_user, "${cfg.postgresqlUser}"},
+    [{data_store, [{postgresql_user, "${cfg.postgresqlUser}"},
                     {postgresql_password, "${cfg.postgresqlPassword}"},
                     {postgresql_port, ${toString cfg.postgresqlPort}}]},
      {episcina, [{max_restarts, 2000},
@@ -57,7 +57,7 @@ in
     config = mkIf cfg.enable {
       networking.firewall.allowedTCPPorts = [ 4000 ];
       systemd.services.sunlightapi = {
-        description = "Start the sunlightapi user under ${cfg.user}.";
+        description = "Start the sunlightapi system under ${cfg.user}.";
         after = [ "network.target" "postgresql.service"];
         wantedBy = [ "multi-user.target" ];
 
@@ -66,14 +66,10 @@ in
             PermissionsStartOnly = true;
 
             KillSignal = "SIGINT";
-            KillMode = "mixed";
+            KillMode = "control-group";
 
             TimeoutSec = 120;
           };
-
-        environment = { postgresql_user = "${cfg.postgresqlUser}";
-                        postgresql_password = "${cfg.postgresqlPassword}";
-                        postgresql_port = "${toString cfg.postgresqlPort}"; };
 
         serviceConfig.ExecStart = ''
                ${pkgs.sunlight.sunlightapi}/var/sunlight/sunlightapi/bin/sunlightapi -config ${sysConfigFile}
