@@ -3,8 +3,8 @@
 
 with haskellPackages; mkDerivation {
   pname = "infpipe";
-  version = "0.0.5+build.35.g78820cd";
-  src = sunlight.fetch {name = "infpipe";version = "0.0.5+build.35.g78820cd"; sha256 = "0hz7bp8bvl28iylqxnlvcb4kmn14w17f6w3cnq6ixxi50488jfb0";};
+  version = "0.0.5+build.39.gf13e025";
+  src = sunlight.fetch {name = "infpipe";version = "0.0.5+build.39.gf13e025"; sha256 = "0ji6bywd791lbg2phhpm47bczrdmvbzyiy7f7vfqv1aabl79nmay";};
   isLibrary = false;
   isExecutable = true;
   dontStrip = true;
@@ -21,6 +21,10 @@ with haskellPackages; mkDerivation {
   executableHaskellDepends = [ base cmdargs shelly aeson github
                                split wreq hslogger time lens bytestring
                                MissingH  slack-notify-haskell ];
+  preBuild = ''
+     SRCS=`find src exe -type f -name "*.hs"`
+     for SRC in $SRCS; do hlint "$SRC"; done
+  '';
 
   postInstall = ''
      wrapProgram $out/bin/infpipe \
