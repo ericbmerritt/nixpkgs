@@ -1,10 +1,10 @@
 { pkgs, sunlight, haskellPackages, stdenv, moreutils, gitMinimal,
-  bash, gnumake, gnupg, nix, nettools, makeWrapper, openssh, awscli }:
+  bash, gnumake, gnupg, nix, nettools, makeWrapper, openssh}:
 
 with haskellPackages; mkDerivation {
   pname = "infpipe";
-  version = "0.0.5+build.28.g70f01c6";
-  src = sunlight.fetch {name = "infpipe";version = "0.0.5+build.28.g70f01c6"; sha256 = "0x9r4szg5gl9jw2n3nxf7pp7c5sqxn1s90cyzcb30afh2353lp03";};
+  version = "0.0.5+build.33.g406c064";
+  src = sunlight.fetch {name = "infpipe";version = "0.0.5+build.33.g406c064"; sha256 = "1lzn2q53ami19yga2xdxl0lz6sqrj8fwz7c4vwjbl82wymj3xbb1";};
   isLibrary = false;
   isExecutable = true;
   dontStrip = true;
@@ -24,7 +24,6 @@ with haskellPackages; mkDerivation {
 
   postInstall = ''
      wrapProgram $out/bin/infpipe \
-         --suffix PATH : ${awscli}/bin \
          --suffix PATH : ${openssh}/bin \
          --suffix PATH : ${gitMinimal}/bin \
          --suffix PATH : ${nettools}/bin \
