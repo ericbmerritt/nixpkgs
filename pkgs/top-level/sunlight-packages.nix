@@ -32,6 +32,7 @@ let
     webui = callPackage ../sunlight/webui {};
     sunlightapi_mi = callPackage ../sunlight/sunlightapi_mi {};
     workspace = callPackage ../sunlight/workspace {};
+    sunlightapi_test_resetter = callPackage ../sunlight/sunlightapi_test_resetter {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 
     # A list of strings of the packages names owned by this namespace
