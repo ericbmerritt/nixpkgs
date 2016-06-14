@@ -14,11 +14,6 @@ let
 
     third-party = recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {});
 
-    # !!! These are deprecated, use sunlightThirdParty instead !!!
-    terraform = (recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {})).terraform;
-    eqc = (recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {})).eqc;
-    eqc_ex = (recurseIntoAttrs (callPackage ./sunlight-third-party-packages.nix {})).eqc_ex;
-
 /* -- START-SUNLIGHT-PACKAGES -- */
     public-keys = callPackage ../sunlight/public-keys {};
     infcli = callPackage ../sunlight/infcli {};
