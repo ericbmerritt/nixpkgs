@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
   register-eqc = writeText "register-eqc.escript" ''
 #! escript -I $out/lib/erlang/eqc-${version}
 main([]) ->
-  eqc:registration("SITEg2wAAAACboAA09tRuo46e1KXlAlCHrsj83ONrYgk7bnfIZYofgDCoSbv3DVVMH1JaHWjpVuMIH9t4vXHIpxHRV/N7D0IOd9fjF0av8+b4OkEHegHHlBDaS/9h07BGrnOBLSYJ2+CzIA+popYIUo4bytJXRCl/NYnzBbs1Imga6qpVbg8COPwarJugAA7i+23OBQ3eFPttdZQcrABnlx/4SM+vCGlevbGB6TFdCuRXLOnf6m1w0BpIIh61fwuNS9CoE1uvV8j1KuxSoN8dwGT2N9SSNfZroVEtaQt+jcaoGj7Xo2PlYxLuflV+qzhh8TqMNfxCwkjRxwkfXaK9DAJBKWPmhGRS7sxwTVrimo="),
+  eqc:registration("SITEg2wAAAACboAA6Hy3sVjcYUATJjvLcxo3CJouiRTfkaGoW5PAqz79b1T/xlsYTdEhEcooTNC1yxzK/79PdF+LuObt4tilYTqNYvtYxCEAKxnD1t9kmbJeqt3sW0TFf4qAQMS7Py95bqmcYhkfNqgYr6EUS175lHJpYfSU76FKSyxmdPCkt+QwyZNugAAi/uOOrvILqL8pQ3+VqM2wJeFp1494CI15u8v2zwjdOVWa9+1yi95b/rZwgLtdlVjRmstqOxrLAjcLkbzuOAzzqUnV7K4jfjWVxhvbsDuBMJMwx/NajiQcl9ZD6cuAtIERO8g2E7500UFJVpoC1eD5tRDHOJfrXVtX1d5RnhhKDWo="),
   eqc:start(),
   init:stop().
   '';
