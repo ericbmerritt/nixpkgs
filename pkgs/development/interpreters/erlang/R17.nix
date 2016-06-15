@@ -4,6 +4,7 @@
 , wxSupport ? true, mesa ? null, wxGTK ? null, xorg ? null, wxmac ? null
 , javacSupport ? false, openjdk ? null
 , enableHipe ? true
+, enableDebugInfo ? false
 }:
 
 assert wxSupport -> (if stdenv.isDarwin
@@ -32,6 +33,8 @@ stdenv.mkDerivation rec {
       ++ optional javacSupport [ openjdk ];
 
   patchPhase = '' sed -i "s@/bin/rm@rm@" lib/odbc/configure erts/configure '';
+
+  debugInfo = enableDebugInfo;
 
   preConfigure = ''
     export HOME=$PWD/../
