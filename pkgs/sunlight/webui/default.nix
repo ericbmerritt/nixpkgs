@@ -1,9 +1,9 @@
-{ elmPackages, fetchurl, glibcLocales, stdenv, sunlight }:
+{ elmPackages, fetchurl, glibcLocales, stdenv, sunlight, writeText }:
 
 elmPackages.app rec {
   name = "webui";
-  version = "0.0.0+build.7.ga25a323";
-  src = sunlight.fetch {name = "webui";version = "0.0.0+build.7.ga25a323"; sha256 = "0kkbyaai37fqws3671ja2wznqxvnxqa0flng0ym6dc8qzrygwlng";};
+  version = "0.0.0+build.10.g6c0855a";
+  src = sunlight.fetch {name = "webui";version = "0.0.0+build.10.g6c0855a"; sha256 = "10agdpdn76az7ns1kpd8f1d98lf1xnk2bpkfps81n52x9chqxshp";};
 
   LOCALE_ARCHIVE = "${glibcLocales}/lib/locale/locale-archive";
 
@@ -26,7 +26,23 @@ elmPackages.app rec {
 
   elmDeps = with elmPackages; [ core html virtual-dom ];
 
-  buildFlags = [ "sh_build" ];
+  buildInfoFile = writeText "BuildInfo.elm" ''
+module BuildInfo exposing (version)
+
+version : String
+version = "${version}"
+  '';
+
+  configurePhase = ''
+    runHook preConfigure
+
+    printenv
+    cp ${buildInfoFile} ./src/elm/BuildInfo.elm
+
+    runHook postConfigure
+  '';
+
+  buildFlags = ["sh_build"];
 
   installPhase = ''
     mkdir -p $out/var/sunlight/www
