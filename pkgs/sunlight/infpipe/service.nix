@@ -11,13 +11,6 @@ in {
         description = "Whether to enable <command>infpipe</command>";
       };
 
-      projects = mkOption {
-        type = types.str;
-        description = ''
-          A comma seperated list of the projects to watch
-        '';
-      };
-
       github-oauth-token = mkOption {
         type = types.str;
         description = ''
@@ -75,7 +68,7 @@ in {
       serviceConfig.ExecStart = ''
         /var/setuid-wrappers/sudo -u "${cfg.user}" -- \
             ${pkgs.sunlight.infpipe}/bin/infpipe monitor \
-            --repos "${cfg.projects}" --working-dir "${cfg.working-dir}" \
+            --working-dir "${cfg.working-dir}" \
             --github-user "${cfg.github-user}" \
             --github-oauth-token "${cfg.github-oauth-token}" \
             --poll-interval-secs "${toString cfg.pollIntervalSecs}"
