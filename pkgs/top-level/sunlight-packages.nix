@@ -28,6 +28,9 @@ let
     sunlightapi_mi = callPackage ../sunlight/sunlightapi_mi {};
     workspace = callPackage ../sunlight/workspace {};
     sunlightapi_test_resetter = callPackage ../sunlight/sunlightapi_test_resetter {};
+    sunlight_schemas = callPackage ../sunlight/sunlight_schemas {};
+    schemas_validator = callPackage ../sunlight/schemas_validator {};
+    sunlightapi_tests = callPackage ../sunlight/sunlightapi_tests {};
 /* -- END-SUNLIGHT-PACKAGES -- */
 
     # A list of strings of the packages names owned by this namespace
