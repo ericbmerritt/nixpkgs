@@ -1,13 +1,13 @@
-# USED BY schemas_validator TO GENERATE `schemas_validator/default.nix`,
+# USED BY sunlightapi TO GENERATE `sunlightapi/default.nix`,
 # ONLY EDIT THE `expression.st` TEMPLATE in the project git
 # repository.
 { stdenv, beamPackages, sunlight, writeText }:
 
 beamPackages.buildMix rec {
   name = "schemas_validator";
-  version = "0.0.0+build.5.98c3592";
+  version = "0.0.0+build.8.g4b990d0";
 
-  src = sunlight.fetch {name = "schemas_validator";version = "0.0.0+build.5.98c3592"; sha256 = "0jdyhl7xjcr2icwvl3wpcrqgdsq3f1hclaav9fbkclkkcw0b7zsn";};
+  src = sunlight.fetch {name = "schemas_validator";version = "0.0.0+build.8.g4b990d0"; sha256 = "0fmfrj8g3dfd7f5vz7lkq5a32wwq1x1i801cw25zppm67pn4xyjf";};
 
   beamDeps = with beamPackages; [ sunlight.third-party.eqc
                                   sunlight.third-party.eqc_ex
