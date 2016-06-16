@@ -1,13 +1,13 @@
-# USED BY sunlightapi TO GENERATE `sunlightapi/default.nix`,
+# USED BY sunlight_schemas TO GENERATE `sunlight_schemas/default.nix`,
 # ONLY EDIT THE `expression.st` TEMPLATE in the project git
 # repository.
 { stdenv, beamPackages, sunlight, writeText }:
 
 beamPackages.buildMix rec {
   name = "sunlight_schemas";
-  version = "0.0.0+build.7.gc4d49ae";
+  version = "0.0.0+build.9.g46525c2";
 
-  src = sunlight.fetch {name = "sunlight_schemas";version = "0.0.0+build.7.gc4d49ae"; sha256 = "0m9277xmp4a7q19xhn3v56vp3rmpv23435mafl57kfsnj5yy7yiw";};
+  src = sunlight.fetch {name = "sunlight_schemas";version = "0.0.0+build.9.g46525c2"; sha256 = "1ss1bj6sc3cw2mkdi7m57g41jafmxk5hvjl249iijlfiivn53mak";};
 
   beamDeps = with beamPackages; [ sunlight.third-party.eqc
                                   sunlight.third-party.eqc_ex
