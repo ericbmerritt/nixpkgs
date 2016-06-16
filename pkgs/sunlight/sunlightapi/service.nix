@@ -8,6 +8,7 @@ let
     [{data_store, [{postgresql_user, "${cfg.postgresqlUser}"},
                     {postgresql_password, "${cfg.postgresqlPassword}"},
                     {postgresql_port, ${toString cfg.postgresqlPort}}]},
+     {schemas_validator, [{schemas_path, "${pkgs.sunlight.sunlight_schemas}/${pkgs.sunlight.sunlight_schemas.outDir}"}]},
      {episcina, [{max_restarts, 2000},
                  {max_seconds_between_restarts, 7200}]}].
   '';
