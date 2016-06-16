@@ -5,9 +5,9 @@
 
 beamPackages.buildMix rec {
   name = "sunlight_schemas";
-  version = "0.0.0+build.9.g46525c2";
+  version = "0.0.0+build.12.g64d7aee";
 
-  src = sunlight.fetch {name = "sunlight_schemas";version = "0.0.0+build.9.g46525c2"; sha256 = "1ss1bj6sc3cw2mkdi7m57g41jafmxk5hvjl249iijlfiivn53mak";};
+  src = sunlight.fetch {name = "sunlight_schemas";version = "0.0.0+build.12.g64d7aee"; sha256 = "0s0nrr34g5gxb85pc45jg0zvcawnm6igpkadpidpdxndvw98d54z";};
 
   beamDeps = with beamPackages; [ sunlight.third-party.eqc
                                   sunlight.third-party.eqc_ex
