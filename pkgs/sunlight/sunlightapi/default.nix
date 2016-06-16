@@ -5,19 +5,19 @@
 
 beamPackages.buildMix {
   name = "sunlightapi";
-  version = "0.0.0+build.21.g85b5da6";
+  version = "0.0.0+build.23.g04538c8";
 
-  src = sunlight.fetch {name = "sunlightapi";version = "0.0.0+build.21.g85b5da6"; sha256 = "072jx6y0p30k8afvh8fhi7mq5igsi11p2q9br6lx2p906wf728ji";};
+  src = sunlight.fetch {name = "sunlightapi";version = "0.0.0+build.23.g04538c8"; sha256 = "0aqb0cg6q3czya010c5kz9grkhwrz23aa3brm72s3hhn90krc42m";};
 
-  buildInputs = with sunlight; [ git relxExe erlang ];
+  buildInputs = with sunlight; [ git relxExe erlang sunlight_schemas ];
 
   beamDeps = with beamPackages;  [ cowboy dialyxir episcina epgsql poison
-                                   uuid ex_json_schema timex ];
+                                   uuid sunlight.schemas_validator timex ];
 
   postBuild = ''
    mix test --no-start --no-deps-check
-   ${relxExe}/bin/relx --output-dir _build/release
 
+   ${relxExe}/bin/relx --output-dir _build/release
   '';
 
   postInstall = ''
