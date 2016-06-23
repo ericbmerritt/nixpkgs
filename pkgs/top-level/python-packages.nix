@@ -22587,8 +22587,8 @@ in modules // {
     };
   };
 
-  toolz = buildPythonPackage rec{
-    name = "toolz-${version}";
+  toolz = buildPyPIPackage rec{
+    name = "toolz";
     version = "0.7.4";
 
     src = pkgs.fetchurl{
