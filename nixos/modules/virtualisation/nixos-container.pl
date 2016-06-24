@@ -6,6 +6,7 @@ use File::Path;
 use File::Slurp;
 use Fcntl ':flock';
 use Getopt::Long qw(:config gnu_getopt);
+use Cwd 'abs_path';
 
 my $nsenter = "@utillinux@/bin/nsenter";
 my $su = "@su@";
@@ -18,12 +19,12 @@ umask 0022;
 sub showHelp {
     print <<EOF;
 Usage: nixos-container list
-       nixos-container create <container-name> [--nixos-path <path>] [--system-path <path>] [--config <string>] [--ensure-unique-name] [--auto-start]
+       nixos-container create <container-name> [--nixos-path <path>] [--system-path <path>] [--config-file <path>] [--config <string>] [--ensure-unique-name] [--auto-start]
        nixos-container destroy <container-name>
        nixos-container start <container-name>
        nixos-container stop <container-name>
        nixos-container status <container-name>
-       nixos-container update <container-name> [--config <string>] [--nixos-path <path>]
+       nixos-container update <container-name> [--config <string>] [--config-file <path>]
        nixos-container login <container-name>
        nixos-container root-login <container-name>
        nixos-container run <container-name> -- args...
@@ -38,6 +39,7 @@ my $nixosPath;
 my $ensureUniqueName = 0;
 my $autoStart = 0;
 my $extraConfig;
+my $configFile;
 
 GetOptions(
     "help" => sub { showHelp() },
@@ -45,7 +47,8 @@ GetOptions(
     "auto-start" => \$autoStart,
     "system-path=s" => \$systemPath,
     "nixos-path=s" => \$nixosPath,
-    "config=s" => \$extraConfig
+    "config=s" => \$extraConfig,
+    "config-file=s" => \$configFile
     ) or exit 1;
 
 my $action = $ARGV[0] or die "$0: no action specified\n";
@@ -70,6 +73,15 @@ $containerName =~ /^[a-zA-Z0-9\-]+$/ or die "$0: invalid container name\n";
 sub writeNixOSConfig {
     my ($nixosConfigFile) = @_;
 
+    my $localExtraConfig = "";
+
+    if ($extraConfig) {
+        $localExtraConfig = $extraConfig
+    } elsif ($configFile) {
+        my $resolvedFile = abs_path($configFile);
+        $localExtraConfig = "imports = [ $resolvedFile ];"
+    }
+
     my $nixosConfig = <<EOF;
 { config, lib, pkgs, ... }:
 
@@ -78,7 +90,7 @@ with lib;
 { boot.isContainer = true;
   networking.hostName = mkDefault "$containerName";
   networking.useDHCP = false;
-  $extraConfig
+  $localExtraConfig
 }
 EOF
 
@@ -257,11 +269,13 @@ elsif ($action eq "update") {
 
     # FIXME: may want to be more careful about clobbering the existing
     # configuration.nix.
-    writeNixOSConfig $nixosConfigFile if (defined $extraConfig && $extraConfig ne "");
+    if ((defined $extraConfig && $extraConfig ne "") ||
+         (defined $configFile && $configFile ne "")) {
+        writeNixOSConfig $nixosConfigFile;
+    }
 
-    my $nixenvF = $nixosPath // "<nixpkgs/nixos>";
     system("nix-env", "-p", "$profileDir/system",
-           "-I", "nixos-config=$nixosConfigFile", "-f", "$nixenvF",
+           "-I", "nixos-config=$nixosConfigFile", "-f", "<nixpkgs/nixos>",
            "--set", "-A", "system") == 0
         or die "$0: failed to build container configuration\n";
 
