@@ -5618,10 +5618,27 @@ in
     inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
     javacSupport = true; odbcSupport = true;
   };
-  erlang = self.erlangR18;
-  erlang_odbc = self.erlangR18_odbc;
-  erlang_javac = self.erlangR18_javac;
-  erlang_odbc_javac = self.erlangR18_odbc_javac;
+
+  erlangR19 = callPackage ../development/interpreters/erlang/R19.nix {
+    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
+  };
+  erlangR19_odbc = callPackage ../development/interpreters/erlang/R19.nix {
+    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
+    odbcSupport = true;
+  };
+  erlangR19_javac = callPackage ../development/interpreters/erlang/R19.nix {
+    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
+    javacSupport = true;
+  };
+  erlangR19_odbc_javac = callPackage ../development/interpreters/erlang/R19.nix {
+    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
+    javacSupport = true; odbcSupport = true;
+  };
+
+  erlang = self.erlangR19;
+  erlang_odbc = self.erlangR19_odbc;
+  erlang_javac = self.erlangR19_javac;
+  erlang_odbc_javac = self.erlangR19_odbc_javac;
 
   rebar = callPackage ../development/tools/build-managers/rebar { };
   rebar3-open = callPackage ../development/tools/build-managers/rebar3 { hermeticRebar3 = false; };
