@@ -1,23 +1,194 @@
-diff a/src/rebar3.erl b/src/rebar3.erl
-index c1a1ae4..1bf1ea0 100644
+diff --git a/bootstrap b/bootstrap
+index 90775c8..34b33e3 100755
+--- a/bootstrap
++++ b/bootstrap
+@@ -6,10 +6,11 @@ main(_) ->
+     application:start(crypto),
+     application:start(asn1),
+     application:start(public_key),
+-    application:start(ssl),
+-    inets:start(),
+-    inets:start(httpc, [{profile, rebar}]),
+-    set_httpc_options(),
++%%  Removed for hermeticity on Nix
++%%  application:start(ssl),
++%%  inets:start(),
++%%  inets:start(httpc, [{profile, rebar}]),
++%%    set_httpc_options(),
+
+     %% Fetch and build deps required to build rebar3
+     BaseDeps = [{providers, []}
+@@ -73,13 +74,13 @@ default_registry_file() ->
+     CacheDir = filename:join([Home, ".cache", "rebar3"]),
+     filename:join([CacheDir, "hex", "default", "registry"]).
+
+-fetch_and_compile({Name, ErlFirstFiles}, Deps) ->
+-    case lists:keyfind(Name, 1, Deps) of
+-        {Name, Vsn} ->
+-            ok = fetch({pkg, atom_to_binary(Name, utf8), list_to_binary(Vsn)}, Name);
+-        {Name, _, Source} ->
+-            ok = fetch(Source, Name)
+-    end,
++fetch_and_compile({Name, ErlFirstFiles}, _Deps) ->
++    %% case lists:keyfind(Name, 1, Deps) of
++    %%     {Name, Vsn} ->
++    %%         ok = fetch({pkg, atom_to_binary(Name, utf8), list_to_binary(Vsn)}, Name);
++    %%     {Name, _, Source} ->
++    %%         ok = fetch(Source, Name)
++    %% end,
+
+     %% Hack: erlware_commons depends on a .script file to check if it is being built with
+     %% rebar2 or rebar3. But since rebar3 isn't built yet it can't get the vsn with get_key.
+@@ -88,67 +89,67 @@ fetch_and_compile({Name, ErlFirstFiles}, Deps) ->
+
+     compile(Name, ErlFirstFiles).
+
+-fetch({pkg, Name, Vsn}, App) ->
+-    Dir = filename:join([filename:absname("_build/default/lib/"), App]),
+-    case filelib:is_dir(Dir) of
+-        false ->
+-            CDN = "https://repo.hex.pm/tarballs",
+-            Package = binary_to_list(<<Name/binary, "-", Vsn/binary, ".tar">>),
+-            Url = string:join([CDN, Package], "/"),
+-            case request(Url) of
+-                {ok, Binary} ->
+-                    {ok, Contents} = extract(Binary),
+-                    ok = erl_tar:extract({binary, Contents}, [{cwd, Dir}, compressed]);
+-                _ ->
+-                    io:format("Error: Unable to fetch package ~p ~p~n", [Name, Vsn])
+-            end;
+-        true ->
+-            io:format("Dependency ~s already exists~n", [Name])
+-    end.
+-
+-extract(Binary) ->
+-    {ok, Files} = erl_tar:extract({binary, Binary}, [memory]),
+-    {"contents.tar.gz", Contents} = lists:keyfind("contents.tar.gz", 1, Files),
+-    {ok, Contents}.
+-
+-request(Url) ->
+-    case httpc:request(get, {Url, []},
+-                       [{relaxed, true}],
+-                       [{body_format, binary}],
+-                       rebar) of
+-        {ok, {{_Version, 200, _Reason}, _Headers, Body}} ->
+-            {ok, Body};
+-        Error ->
+-            Error
+-    end.
+-
+-get_rebar_config() ->
+-    {ok, [[Home]]} = init:get_argument(home),
+-    ConfDir = filename:join(Home, ".config/rebar3"),
+-    case file:consult(filename:join(ConfDir, "rebar.config")) of
+-        {ok, Config} ->
+-            Config;
+-        _ ->
+-            []
+-    end.
+-
+-get_http_vars(Scheme) ->
+-    OS = case os:getenv(atom_to_list(Scheme)) of
+-        Str when is_list(Str) -> Str;
+-        _ -> []
+-    end,
+-    proplists:get_value(Scheme, get_rebar_config(), OS).
+-
+-set_httpc_options() ->
+-    set_httpc_options(https_proxy, get_http_vars(https_proxy)),
+-    set_httpc_options(proxy, get_http_vars(http_proxy)).
+-
+-set_httpc_options(_, []) ->
+-    ok;
+-
+-set_httpc_options(Scheme, Proxy) ->
+-    {ok, {_, _, Host, Port, _, _}} = http_uri:parse(Proxy),
+-    httpc:set_options([{Scheme, {{Host, Port}, []}}], rebar).
++%% fetch({pkg, Name, Vsn}, App) ->
++%%     Dir = filename:join([filename:absname("_build/default/lib/"), App]),
++%%     case filelib:is_dir(Dir) of
++%%         false ->
++%%             CDN = "https://repo.hex.pm/tarballs",
++%%             Package = binary_to_list(<<Name/binary, "-", Vsn/binary, ".tar">>),
++%%             Url = string:join([CDN, Package], "/"),
++%%             case request(Url) of
++%%                 {ok, Binary} ->
++%%                     {ok, Contents} = extract(Binary),
++%%                     ok = erl_tar:extract({binary, Contents}, [{cwd, Dir}, compressed]);
++%%                 _ ->
++%%                     io:format("Error: Unable to fetch package ~p ~p~n", [Name, Vsn])
++%%             end;
++%%         true ->
++%%             io:format("Dependency ~s already exists~n", [Name])
++%%     end.
++
++%% extract(Binary) ->
++%%     {ok, Files} = erl_tar:extract({binary, Binary}, [memory]),
++%%     {"contents.tar.gz", Contents} = lists:keyfind("contents.tar.gz", 1, Files),
++%%     {ok, Contents}.
++
++%% request(Url) ->
++%%     case httpc:request(get, {Url, []},
++%%                        [{relaxed, true}],
++%%                        [{body_format, binary}],
++%%                        rebar) of
++%%         {ok, {{_Version, 200, _Reason}, _Headers, Body}} ->
++%%             {ok, Body};
++%%         Error ->
++%%             Error
++%%     end.
++
++%% get_rebar_config() ->
++%%     {ok, [[Home]]} = init:get_argument(home),
++%%     ConfDir = filename:join(Home, ".config/rebar3"),
++%%     case file:consult(filename:join(ConfDir, "rebar.config")) of
++%%         {ok, Config} ->
++%%             Config;
++%%         _ ->
++%%             []
++%%     end.
++
++%% get_http_vars(Scheme) ->
++%%     OS = case os:getenv(atom_to_list(Scheme)) of
++%%         Str when is_list(Str) -> Str;
++%%         _ -> []
++%%     end,
++%%     proplists:get_value(Scheme, get_rebar_config(), OS).
++
++%% set_httpc_options() ->
++%%     set_httpc_options(https_proxy, get_http_vars(https_proxy)),
++%%     set_httpc_options(proxy, get_http_vars(http_proxy)).
++
++%% set_httpc_options(_, []) ->
++%%     ok;
++
++%% set_httpc_options(Scheme, Proxy) ->
++%%     {ok, {_, _, Host, Port, _, _}} = http_uri:parse(Proxy),
++%%     httpc:set_options([{Scheme, {{Host, Port}, []}}], rebar).
+
+ compile(App, FirstFiles) ->
+     Dir = filename:join(filename:absname("_build/default/lib/"), App),
+diff --git a/src/rebar3.erl b/src/rebar3.erl
+index 82b4472..96ea7bd 100644
 --- a/src/rebar3.erl
 +++ b/src/rebar3.erl
-@@ -294,9 +294,11 @@ start_and_load_apps(Caller) ->
+@@ -302,10 +302,11 @@ start_and_load_apps(Caller) ->
+     %% Make sure crypto is running
      ensure_running(crypto, Caller),
      ensure_running(asn1, Caller),
-     ensure_running(public_key, Caller),
+-    ensure_running(public_key, Caller),
 -    ensure_running(ssl, Caller),
 -    inets:start(),
 -    inets:start(httpc, [{profile, rebar}]).
-+    ensure_running(ssl, Caller).
-+%%  Removed due to the hermicity requirements of Nix
-+%%
++    ensure_running(public_key, Caller).
++%% Removed due to the hermicity requirements of Nix
++%%    ensure_running(ssl, Caller),
 +%%    inets:start(),
 +%%    inets:start(httpc, [{profile, rebar}]).
 
  ensure_running(App, Caller) ->
      case application:start(App) of
-diff a/src/rebar_hermicity.erl b/src/rebar_hermicity.erl
+diff --git a/src/rebar_hermicity.erl b/src/rebar_hermicity.erl
 new file mode 100644
 index 0000000..d814e2a
 --- /dev/null
@@ -65,7 +236,7 @@ index 0000000..d814e2a
 +           "are as follows:", []),
 +    ?ERROR("Requesnt: ~p ~s", [Method, Url]),
 +    erlang:halt(1).
-diff a/src/rebar_pkg_resource.erl b/src/rebar_pkg_resource.erl
+diff --git a/src/rebar_pkg_resource.erl b/src/rebar_pkg_resource.erl
 index ec7e09d..03be343 100644
 --- a/src/rebar_pkg_resource.erl
 +++ b/src/rebar_pkg_resource.erl
@@ -78,8 +249,8 @@ index ec7e09d..03be343 100644
                         [{ssl, ssl_opts(Url)}, {relaxed, true}],
                         [{body_format, binary}],
                         rebar) of
-diff a/src/rebar_prv_update.erl b/src/rebar_prv_update.erl
-index 5e1e253..ea25b9e 100644
+diff --git a/src/rebar_prv_update.erl b/src/rebar_prv_update.erl
+index 54b135e..e66d7fb 100644
 --- a/src/rebar_prv_update.erl
 +++ b/src/rebar_prv_update.erl
 @@ -52,7 +52,7 @@ do(State) ->

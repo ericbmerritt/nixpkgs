@@ -3,14 +3,14 @@
   tree, fetchFromGitHub, hexRegistrySnapshot }:
 
 let
-  version = "3.1.0";
+  version = "3.2.0";
 
   bootstrapper = ./rebar3-nix-bootstrap;
 
   erlware_commons = fetchHex {
     pkg = "erlware_commons";
-    version = "0.19.0";
-    sha256 = "1gfsy9bbhjb94c5ghff2niamn93x2x08lnklh6pp7sfr5i0gkgsv";
+    version = "0.21.0";
+    sha256 = "0gxb011m637rca2g0vhm1q9krm3va50rz1py6zf8k92q4iv9a2p7";
   };
   ssl_verify_hostname = fetchHex {
     pkg = "ssl_verify_hostname";
@@ -39,8 +39,8 @@ let
   };
   relx = fetchHex {
     pkg = "relx";
-    version = "3.17.0";
-    sha256 = "1xjybi93m8gj9f9z3lkc7xbg3k5cw56yl78rcz5qfirr0223sby2";
+    version = "3.19.0";
+    sha256 = "0zy6didxd0118csvjfh0wg1n13bvrygdghwyp08aw52f3gv0kcsc";
   };
   cf = fetchHex {
     pkg = "cf";
@@ -59,8 +59,8 @@ let
   };
   rebar3_hex = fetchHex {
     pkg = "rebar3_hex";
-    version = "1.12.0";
-    sha256 = "45467e93ae8d776c6038fdaeaffbc55d8f2f097f300a54dab9b81c6d1cf21f73";
+    version = "2.5.1";
+    sha256 = "1j4nldlz1d3566qsz60klq9yyxj4hwm43cf2md7yd2fasp1qm7m7";
   };
 
 in
@@ -70,13 +70,13 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://github.com/rebar/rebar3/archive/${version}.tar.gz";
-    sha256 = "0r4wpnpi81ha4iirv9hcif3vrgc82qd51kah7rnhvpym55wcy9ml";
+    sha256 = "0mb4a41pjj2i8pxwg701iajhghaiyi3awqg1j1bj2vpa5qvjgbbq";
   };
 
   inherit bootstrapper;
 
   patches = if hermeticRebar3 == true
-  then  [ ./hermetic-bootstrap.patch ./hermetic-rebar3.patch ]
+  then  [ ./hermetic-rebar3.patch ]
   else [];
 
   buildInputs = [ erlang tree  ];
